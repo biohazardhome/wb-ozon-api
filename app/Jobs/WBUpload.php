@@ -26,7 +26,7 @@ class WBUpload implements ShouldQueue
 
     private $apiMethod = '';
 
-    public $timeout = 660;
+    public $timeout = 1000;
 
     /**
      * Create a new job instance.
