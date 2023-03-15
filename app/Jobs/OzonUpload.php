@@ -33,51 +33,57 @@ class OzonUpload implements ShouldQueue
     public function handle(OzonApi $api): void
     {
         $this->api = $api;
-        $result = $api->productInfoStocksV3(['visibility' =>  'ALL']);
-        $items = $result['result']['items'];
 
-        foreach($items as $item) {
-            if (!ProductInfoStock::whereProductId($item['product_id'])->first()) { 
-                $item['stocks'] = json_encode($item['stocks']);
-                ProductInfoStock::create($item);
+        $result = $api->productInfoStocksV3(['visibility' =>  'ALL']);
+        $response = $api->getResponse();
+        if ($response->successful()) {
+            $items = $result['result']['items'];
+            foreach($items as $item) {
+                if (!ProductInfoStock::whereProductId($item['product_id'])->first()) { 
+                    ProductInfoStock::create($item);
+                }
             }
+        } else {
+            $response->throw();
         }
 
+        
+
         $result = $this->postingFbsListV3();
-        $items = $result['result']['postings'];
-        dump(count($items));
-        dump($items[0]);
-    }
+        $response = $api->getResponse();
+        $i = 1;
 
-    public function postingFbsListV3(int $offset = 0) {
-        static $inc = 0;
+        while ($result['result']['has_next']) {
 
-        $result = $this->api->postingFbsListV3([
-            'since' => '2022-11-01T00:00:00.000Z',
-            'status' => '',
-            // 'to' => '2023-03-01T23:59:59.000Z',
-            'to' => Carbon::now()->toRfc3339String(),
-        ], $offset);
+            $result2 = $this->postingFbsListV3($i * 1000);
+            $postings = array_merge($result['result']['postings'], $result2['result']['postings']);
+            $result['result']['postings'] = $postings;
+            $result['result']['has_next'] = $result2['result']['has_next'];
 
-        $items = $result['result']['postings'];
-        foreach($items as $item) {
+            $i++;
+        }
+
+        foreach($result['result']['postings'] as $item) {
             if (!PostingFbsListV3::wherePostingNumber($item['posting_number'])->first()) {
                 PostingFbsListV3::create($item);
             }
         }
+    }
 
-        if ($result['result']['has_next']) {
-            $inc++;
-            $result = $this->postingFbsListV3($inc * 1000);
+    public function postingFbsListV3(int $offset = 0) {
 
-            $items = $result['result']['postings'];
-            foreach($items as $item) {
-                if (!PostingFbsListV3::wherePostingNumber($item['posting_number'])->first()) {
-                    PostingFbsListV3::create($item);
-                }
-            }
+        $result = $this->api->postingFbsListV3([
+            'since' => '2022-11-01T00:00:00.000Z',
+            'status' => '',
+            'to' => Carbon::now()->toRfc3339String(),
+        ], $offset);
+
+        $response = $this->api->getResponse();
+
+        if ($response->successful()) {
+            return $result;
+        } else {
+            $response->throw();
         }
-
-        return $result;
     }
 }
