@@ -5,7 +5,7 @@ namespace App\Models\WB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\WB\Income;
-use App\Models\WB\Info;
+use App\Models\WB\Price;
 
 class Order extends Model
 {
@@ -66,7 +66,7 @@ class Order extends Model
         return $this->hasOne(Income::class, 'income_id', 'income_id');
     }
 
-    public function nm() {
-        return $this->hasOne(Info::class, 'nm_id', 'nm_id');
+    public function price() {
+        return $this->hasOne(Price::class, 'nm_id', 'nm_id');
     }
 }

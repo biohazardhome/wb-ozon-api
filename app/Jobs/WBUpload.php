@@ -14,7 +14,7 @@ use DateTime;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Models\WB\Income;
-use App\Models\WB\Info;
+use App\Models\WB\Price;
 use App\Models\WB\Order;
 use App\Models\WB\Sale;
 use App\Models\WB\Stock;
@@ -45,14 +45,14 @@ class WBUpload implements ShouldQueue
         $prices = $api->Prices();
 
         $this->upload($stats, 'incomes', Income::class);
-        $this->uploadPricesInfo($prices);
+        $this->uploadPrices($prices);
         $this->upload($stats, 'ordersFromDate', Order::class);
         $this->upload($stats, 'salesFromDate', Sale::class);
         $this->upload($stats, 'stocks', Stock::class);
         $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);
     }
 
-    private function uploadPricesInfo($api) {
+    private function uploadPrices($api) {
         $prices = $api->getPrices();
         if ($prices) {
             $collect = collect($prices);
@@ -60,8 +60,8 @@ class WBUpload implements ShouldQueue
             if ($collect) {
                 // dump($collect);
                 foreach($collect as $item) {
-                    if (!Info::whereNmId($item['nm_id'])->first()) {
-                        Info::create($item);
+                    if (!Price::whereNmId($item['nm_id'])->first()) {
+                        Price::create($item);
                     }
                 }
             }

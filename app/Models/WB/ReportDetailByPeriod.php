@@ -4,7 +4,7 @@ namespace App\Models\WB;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\WB\Info;
+use App\Models\WB\Price;
 
 class ReportDetailByPeriod extends Model
 {
@@ -125,7 +125,7 @@ class ReportDetailByPeriod extends Model
             'srid' => 'string',
         ];
 
-    public function nm() {
-        return $this->hasOne(Info::class, 'nm_id', 'nm_id');
+    public function price() {
+        return $this->hasOne(Price::class, 'nm_id', 'nm_id');
     }
 }

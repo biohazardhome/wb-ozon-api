@@ -5,12 +5,11 @@ namespace App\Models\WB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Info extends Model
+class Price extends Model
 {
     use HasFactory;
 
     protected
-        $table = 'info',
         $fillable = [
             'nm_id',
             'price',
