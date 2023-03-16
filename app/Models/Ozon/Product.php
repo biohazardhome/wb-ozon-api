@@ -20,7 +20,7 @@ class Product extends Model
             'currency_code',
         ],
         $casts = [
-            'price' => 'decimal',
+            'price' => 'decimal:2',
             'offer_id' => 'string',
             'name' => 'string',
             'sku' => 'integer',

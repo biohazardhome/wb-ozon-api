@@ -4,6 +4,7 @@ namespace App\Models\Ozon;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Ozon\Product;
 
 class ProductStock extends Model
 {
@@ -20,4 +21,8 @@ class ProductStock extends Model
             'offer_id' => 'string',
             'stocks' => 'json',
         ];
+
+    public function product() {
+        return $this->belongsTo(Product::class, 'product_id', 'sku');
+    }
 }

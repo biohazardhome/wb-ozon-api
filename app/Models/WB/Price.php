@@ -18,8 +18,8 @@ class Price extends Model
         ],
         $casts = [
             'nm_id' => 'integer',
-            'price' => 'decimal:8,2',
+            'price' => 'decimal:2',
             'discount' => 'integer',
-            'promo_code' => 'decimal:8,2',
+            'promo_code' => 'decimal:2',
         ];
 }

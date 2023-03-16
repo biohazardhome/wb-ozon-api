@@ -41,7 +41,7 @@ class Order extends Model
             'supplier_article' => 'string',
             'tech_size' => 'string',
             'barcode' => 'string',
-            'total_price' => 'decimal:8,2',
+            'total_price' => 'decimal:2',
             'discount_percent' => 'integer',
             'warehouse_name' => 'string',
             'oblast' => 'string',

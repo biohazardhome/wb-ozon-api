@@ -44,11 +44,11 @@ class WBUpload implements ShouldQueue
         $stats = $api->Statistics();
         $prices = $api->Prices();
 
-        $this->upload($stats, 'incomes', Income::class);
-        $this->uploadPrices($prices);
-        $this->upload($stats, 'ordersFromDate', Order::class);
-        $this->upload($stats, 'salesFromDate', Sale::class);
-        $this->upload($stats, 'stocks', Stock::class);
+        // $this->upload($stats, 'incomes', Income::class);
+        // $this->uploadPrices($prices);
+        // $this->upload($stats, 'ordersFromDate', Order::class);
+        // $this->upload($stats, 'salesFromDate', Sale::class);
+        // $this->upload($stats, 'stocks', Stock::class);
         $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);
     }
 
@@ -60,9 +60,10 @@ class WBUpload implements ShouldQueue
             if ($collect) {
                 // dump($collect);
                 foreach($collect as $item) {
-                    if (!Price::whereNmId($item['nm_id'])->first()) {
-                        Price::create($item);
-                    }
+                    Price::updateOrCreate(
+                        ['nm_id' => $item['nm_id']],
+                        $item
+                    );
                 }
             }
         }
@@ -108,7 +109,29 @@ class WBUpload implements ShouldQueue
         $collect = $this->transformKeys($collect);
         if ($collect) {
             foreach($collect as $item) {
-                $model::create($item);
+                if ($model === Income::class) {
+                    $model::updateOrCreate(
+                        ['income_id' => $item['income_id']],
+                        $item
+                    );
+                } else if ($model === Order::class) {
+                    $model::updateOrCreate(
+                        ['odid' => $item['odid']],
+                        $item
+                    );
+                } else if ($model === Sale::class) {
+                    $model::updateOrCreate(
+                        ['sale_id' => $item['sale_id']],
+                        $item
+                    );
+                } else if ($model === Stock::class) {
+                    $model::create($item);
+                } else if ($model === ReportDetailByPeriod::class) {
+                    $model::updateOrCreate(
+                        ['rrd_id' => $item['rrd_id']],
+                        $item
+                    );
+                }
             }
         }
     }

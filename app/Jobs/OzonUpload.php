@@ -53,9 +53,10 @@ class OzonUpload implements ShouldQueue
 
             // dd($items = $result['result']);
             foreach($items as $item) {
-                if (!ProductStock::whereProductId($item['product_id'])->first()) { 
-                    ProductStock::create($item);
-                }
+                ProductStock::updateOrCreate(
+                    ['product_id' => $item['product_id']],
+                    $item
+                );
             }
         } else {
             $response->throw();
@@ -122,10 +123,15 @@ class OzonUpload implements ShouldQueue
             // dump($cancellation);
             if ($cancellation) {
                 // $cancellation['cancel_reason_id']
-                $cancellationModel = Cancellation::whereCancelReasonId($cancellation['cancel_reason_id'])->first();
+                /*$cancellationModel = Cancellation::whereCancelReasonId($cancellation['cancel_reason_id'])->first();
                 if (!$cancellationModel) {
                     $cancellationModel = Cancellation::create($cancellation);
-                }
+                }*/
+
+                $cancellationModel = Cancellation::updateOrCreate(
+                    ['cancel_reason_id' => $cancellation['cancel_reason_id']],
+                    $cancellation
+                );
             } else {
                 $cancellationModel = Cancellation::whereCancelReasonId(0)->first();
             }
@@ -134,10 +140,15 @@ class OzonUpload implements ShouldQueue
             $delivery_method = $item['delivery_method'];
             // dump($delivery_method);
             if ($delivery_method) {
-                $deliveryMethodModel = DeliveryMethod::find($delivery_method['id']);
+                /*$deliveryMethodModel = DeliveryMethod::find($delivery_method['id']);
                 if (!$deliveryMethodModel) {
                     $deliveryMethodModel = DeliveryMethod::create($delivery_method);
-                }
+                }*/
+
+                $deliveryMethodModel = DeliveryMethod::updateOrCreate(
+                    ['id' => $delivery_method['id']],
+                    $delivery_method
+                );
             }/* else {
                 $deliveryMethodModel = DeliveryMethod::find();
             }*/
@@ -146,7 +157,11 @@ class OzonUpload implements ShouldQueue
             $requirement = $item['requirements'];
             // dump($requirement);
             if ($requirement) {
-                $requirementModel = Requirement::create($requirement);                
+                // $requirementModel = Requirement::create($requirement);
+                $requirementModel = Requirement::updateOrCreate(
+                    ['products_requiring_gtd' => $requirement['products_requiring_gtd']],
+                    $requirement
+                );
             }
 
             $products = $item['products'];
@@ -154,9 +169,14 @@ class OzonUpload implements ShouldQueue
             if ($products) {
                 $productIds = [];
                 foreach($products as $product) {
-                    $productModel = Product::firstOrCreate([
+                    /*$productModel = Product::firstOrCreate([
                             'sku' => $product['sku'],
                         ],
+                        $product
+                    );*/
+
+                    $productModel = Product::updateOrCreate(
+                        ['sku' => $product['sku']],
                         $product
                     );
                     // dump($productModel);
@@ -168,7 +188,10 @@ class OzonUpload implements ShouldQueue
             unset($item['products']);
 
             // if (!Post::wherePostingNumber($item['posting_number'])->first()) {
-            $postModel = Post::create($item);
+            $postModel = Post::updateOrCreate(
+                ['posting_number' => $item['posting_number']],
+                $item
+            );
             // $postModel = Post::create($item);
             // $postModel = new Post;
             // $postModel->fill($item);

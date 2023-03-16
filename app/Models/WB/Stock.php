@@ -46,8 +46,8 @@ class Stock extends Model
             'days_on_site' => 'integer',
             'brand' => 'string',
             'sccode' => 'string',
-            'price' => 'decimal:8,2',
-            'discount' => 'decimal:8,2',
+            'price' => 'decimal:2',
+            'discount' => 'decimal:2',
         ],
         $dates = [
             'last_change_date',
