@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('odid')->unique();
             $table->string('g_number', 50);
             $table->dateTime('date');
             $table->dateTime('last_change_date');
@@ -24,7 +25,6 @@ return new class extends Migration
             $table->string('warehouse_name', 50);
             $table->string('oblast', 200);
             $table->unsignedInteger('income_id')->index();
-            $table->unsignedBigInteger('odid');
             $table->unsignedInteger('nm_id');
             $table->string('subject', 50);
             $table->string('category', 50);

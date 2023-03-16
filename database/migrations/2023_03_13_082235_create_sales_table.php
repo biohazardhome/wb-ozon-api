@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->string('sale_id', 15)->unique();
             $table->string('g_number', 50);
             $table->dateTime('date');
             $table->dateTime('last_change_date');
@@ -29,7 +30,6 @@ return new class extends Migration
             $table->string('oblast_okrug_name', 200);
             $table->string('region_name', 200);
             $table->unsignedInteger('income_id');
-            $table->string('sale_id', 15);
             $table->unsignedBigInteger('odid');
             $table->decimal('spp', 8, 2);
             $table->decimal('for_pay', 8, 2);
