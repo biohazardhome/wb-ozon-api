@@ -12,9 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('report_detail_by_period', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_bin';
-
             $table->id();
             $table->unsignedInteger('realizationreport_id');
             $table->dateTime('date_from');

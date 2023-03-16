@@ -4,7 +4,7 @@ namespace App\Models\WB;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Carbon\Carbon;
+use App\Models\WB\Info;
 
 class Income extends Model
 {
@@ -45,13 +45,9 @@ class Income extends Model
             'last_change_date',
         ];
 
-    /*public function getLastChangeDateAttribute(string $value): Carbon
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s.v', $value);
+    public function nm() {
+        return $this->hasOne(Info::class, 'nm_id', 'nm_id');
     }
 
-    public function setLastChangeDateAttribute(Carbon $value): void
-    {
-        $this->attributes['last_change_date'] = $value->format('Y-m-d H:i:s.v');
-    }*/
+    
 }

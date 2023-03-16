@@ -5,7 +5,7 @@ namespace App\Models\Ozon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductInfoStock extends Model
+class ProductStock extends Model
 {
     use HasFactory;
 

@@ -4,6 +4,8 @@ namespace App\Models\WB;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\WB\Income;
+use App\Models\WB\Info;
 
 class Sale extends Model
 {
@@ -76,4 +78,12 @@ class Sale extends Model
             'date',
             'last_change_date',
         ];
+
+    public function income() {
+        return $this->hasOne(Income::class, 'income_id', 'income_id');
+    }
+
+    public function nm() {
+        return $this->hasOne(Info::class, 'nm_id', 'nm_id');
+    }
 }

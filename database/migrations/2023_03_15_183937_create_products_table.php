@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_info_stocks', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_bin';
-            
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->unique();
+            $table->decimal('price', 8, 2);
             $table->string('offer_id');
-            $table->json('stocks');
+            $table->string('name');
+            $table->unsignedInteger('sku')->unique();
+            $table->unsignedInteger('quantity');
+            $table->json('mandatory_mark');
+            $table->string('currency_code');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_info_stocks');
+        Schema::dropIfExists('products');
     }
 };

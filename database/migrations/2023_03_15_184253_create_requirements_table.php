@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posting_fbo_list_v2_s', function (Blueprint $table) {
+        Schema::create('requirements', function (Blueprint $table) {
             $table->id();
+            $table->json('products_requiring_gtd');
+            $table->json('products_requiring_country');
+            $table->json('products_requiring_mandatory_mark');
+            $table->json('products_requiring_rnpt');
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posting_fbo_list_v2_s');
+        Schema::dropIfExists('requirements');
     }
 };

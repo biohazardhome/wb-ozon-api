@@ -4,6 +4,7 @@ namespace App\Models\WB;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\WB\Info;
 
 class Stock extends Model
 {
@@ -51,4 +52,8 @@ class Stock extends Model
         $dates = [
             'last_change_date',
         ];
+
+    public function nm() {
+        return $this->hasOne(Info::class, 'nm_id', 'nm_id');
+    }
 }

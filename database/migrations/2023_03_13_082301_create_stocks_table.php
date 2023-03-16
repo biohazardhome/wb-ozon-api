@@ -12,9 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_bin';
-            
             $table->id();
             $table->dateTime('last_change_date');
             $table->string('supplier_article', 75);

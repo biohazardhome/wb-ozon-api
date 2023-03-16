@@ -12,9 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_bin';
-
             $table->id();
             $table->string('g_number', 50);
             $table->dateTime('date');
@@ -26,7 +23,7 @@ return new class extends Migration
             $table->integer('discount_percent');
             $table->string('warehouse_name', 50);
             $table->string('oblast', 200);
-            $table->unsignedInteger('income_id');
+            $table->unsignedInteger('income_id')->index();
             $table->unsignedBigInteger('odid');
             $table->unsignedInteger('nm_id');
             $table->string('subject', 50);

@@ -12,9 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('incomes', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_bin';
-            
             $table->id();
             $table->unsignedInteger('income_id');
             $table->string('number');
@@ -27,8 +24,11 @@ return new class extends Migration
             $table->decimal('total_price', 8, 2);
             $table->date('date_close');
             $table->string('warehouse_name', 50);
-            $table->unsignedInteger('nm_id');
+            $table->unsignedInteger('nm_id')->index();
             $table->string('status', 50);
+
+            $table->unique(['income_id', 'barcode']);
+
             $table->timestamps();
         });
     }

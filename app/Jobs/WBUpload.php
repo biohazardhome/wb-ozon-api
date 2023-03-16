@@ -26,7 +26,7 @@ class WBUpload implements ShouldQueue
 
     private $apiMethod = '';
 
-    public $timeout = 1000;
+    public $timeout = 10000;
 
     /**
      * Create a new job instance.
@@ -87,7 +87,7 @@ class WBUpload implements ShouldQueue
 
     private function getDateTime(string $model) {
         $column = $this->apiMethod === 'detailReport' ? 'rr_dt' : 'last_change_date';
-        $date = new Carbon('2019-06-20T23:59:59');
+        $date = new Carbon('2022-01-01T00:00:00');
         $date = $model::max($column) ? (new Carbon($model::max($column))) : $date;
         return $date;
     }
