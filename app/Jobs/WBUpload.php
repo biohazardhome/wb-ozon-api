@@ -44,11 +44,11 @@ class WBUpload implements ShouldQueue
         $stats = $api->Statistics();
         $prices = $api->Prices();
 
-        // $this->upload($stats, 'incomes', Income::class);
-        // $this->uploadPrices($prices);
-        // $this->upload($stats, 'ordersFromDate', Order::class);
-        // $this->upload($stats, 'salesFromDate', Sale::class);
-        // $this->upload($stats, 'stocks', Stock::class);
+        $this->upload($stats, 'incomes', Income::class);
+        $this->uploadPrices($prices);
+        $this->upload($stats, 'ordersFromDate', Order::class);
+        $this->upload($stats, 'salesFromDate', Sale::class);
+        $this->upload($stats, 'stocks', Stock::class);
         $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);
     }
 
