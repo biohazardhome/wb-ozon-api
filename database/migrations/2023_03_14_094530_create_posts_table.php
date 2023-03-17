@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedInteger('cancellation_id')->nullable()->index();
             $table->unsignedBigInteger('delivery_method_id')->length(15)->nullable()->index();
             $table->unsignedInteger('requirement_id')->nullable()->index();
+            $table->unsignedInteger('analytic_id')->nullable()->index();
+            $table->unsignedInteger('financial_id')->nullable()->index();
             $table->unsignedBigInteger('order_id');
             $table->string('order_number');
             $table->string('status');
@@ -28,8 +30,6 @@ return new class extends Migration
             $table->json('customer')->nullable();
             $table->json('addressee')->nullable();
             $table->json('barcodes')->nullable();
-            $table->json('analytics_data')->nullable();
-            $table->json('financial_data')->nullable();
             $table->boolean('is_express');
             $table->string('parent_posting_number');
             $table->json('available_actions');

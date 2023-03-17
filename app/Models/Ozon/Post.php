@@ -8,6 +8,8 @@ use App\Models\Ozon\Cancellation;
 use App\Models\Ozon\DeliveryMethod;
 use App\Models\Ozon\Requirement;
 use App\Models\Ozon\Product;
+use App\Models\Ozon\PostAnalytic;
+use App\Models\Ozon\PostFinancial;
 
 class Post extends Model
 {
@@ -18,8 +20,8 @@ class Post extends Model
             'posting_number',
             'delivery_method_id',
             'cancellation_id',
-            'analytics_data',
-            'financial_data',
+            'analytic_id',
+            'financial_id',
             'requirement_id',
             'order_id',
             'order_number',
@@ -43,8 +45,8 @@ class Post extends Model
             'posting_number' => 'string',
             'delivery_method_id' => 'integer',
             'cancellation_id' => 'integer',
-            'analytics_data' => 'json',
-            'financial_data' => 'json',
+            'analytic_id' => 'integer',
+            'financial_id' => 'json',
             'requirement_id' => 'integer',
             'order_id' => 'integer',
             'order_number' => 'string',
@@ -56,7 +58,7 @@ class Post extends Model
             'delivering_date' => 'datetime',
             'customer' => 'string',
             'addressee' => 'string',
-            'barcodes' => 'string',
+            'barcodes' => 'json',
             'is_express' => 'boolean',
             'parent_posting_number' => 'string',
             'available_actions' => 'json',
@@ -88,4 +90,14 @@ class Post extends Model
     public function products() {
         return $this->belongsToMany(Product::class, 'post_products', 'post_id', 'product_id');
     }
+
+    public function analytic() {
+        return $this->belongsTo(PostAnalytic::class, 'analytic_id', 'id');
+    }
+
+    public function financial() {
+        return $this->belongsTo(PostFinancial::class, 'financial_id', 'id');
+    }
+
+
 }

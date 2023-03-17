@@ -58,7 +58,11 @@ class OzonApi
             'filter' => $filter,
             'limit' => $limit,
             'offset' => $offset,
-            // 'with' => $with,
+            'with' => [
+                'analytics_data' => true,
+                'barcodes' => true,
+                'financial_data' => true,
+            ],
         ]);
     }
 }

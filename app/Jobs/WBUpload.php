@@ -111,7 +111,10 @@ class WBUpload implements ShouldQueue
             foreach($collect as $item) {
                 if ($model === Income::class) {
                     $model::updateOrCreate(
-                        ['income_id' => $item['income_id']],
+                        [
+                            'income_id' => $item['income_id'],
+                            'barcode' => $item['barcode']
+                        ],
                         $item
                     );
                 } else if ($model === Order::class) {
