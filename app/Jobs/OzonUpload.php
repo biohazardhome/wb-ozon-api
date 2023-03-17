@@ -51,7 +51,6 @@ class OzonUpload implements ShouldQueue
         if ($response->successful()) {
             $items = $result['result']['items'];
 
-            // dd($items = $result['result']);
             foreach($items as $item) {
                 ProductStock::updateOrCreate(
                     ['product_id' => $item['product_id']],
@@ -71,14 +70,11 @@ class OzonUpload implements ShouldQueue
             dump($dateSince->toRfc3339String(), $dateTo->toRfc3339String());
             $this->postDate($dateSince, $dateTo);
         }
-        // dd($dates);
-
     }
 
     public function dates(Carbon $dateSince) {
         $dates = [];
 
-        // $dateSince = Carbon::parse($dateSince);
         $dateTo = Carbon::now();
 
         $diff = $dateTo->floatDiffInYears($dateSince);
@@ -89,12 +85,10 @@ class OzonUpload implements ShouldQueue
                     $dateTo->addYear(1)->subSecond(1);
                 }
                 $dates[] = [$dateSince, $dateTo];
-                // dump($dateSince->toRfc3339String(), $dateTo->toRfc3339String());
                 $dateSince = $dateTo;
             }
             $dateTo = Carbon::now();
             $dates[] = [$dateSince, $dateTo];
-            // dump($dateSince->toRfc3339String(), $dateTo->toRfc3339String());
         } else {
             $dates[] = [$dateSince, $dateTo];
         }
@@ -117,17 +111,9 @@ class OzonUpload implements ShouldQueue
         }
 
         foreach($result['result']['postings'] as $item) {
-            // dd($item);
 
             $cancellation = $item['cancellation'];
-            // dump($cancellation);
             if ($cancellation) {
-                // $cancellation['cancel_reason_id']
-                /*$cancellationModel = Cancellation::whereCancelReasonId($cancellation['cancel_reason_id'])->first();
-                if (!$cancellationModel) {
-                    $cancellationModel = Cancellation::create($cancellation);
-                }*/
-
                 $cancellationModel = Cancellation::updateOrCreate(
                     ['cancel_reason_id' => $cancellation['cancel_reason_id']],
                     $cancellation
@@ -138,26 +124,16 @@ class OzonUpload implements ShouldQueue
             unset($item['cancellation']);
 
             $delivery_method = $item['delivery_method'];
-            // dump($delivery_method);
             if ($delivery_method) {
-                /*$deliveryMethodModel = DeliveryMethod::find($delivery_method['id']);
-                if (!$deliveryMethodModel) {
-                    $deliveryMethodModel = DeliveryMethod::create($delivery_method);
-                }*/
-
                 $deliveryMethodModel = DeliveryMethod::updateOrCreate(
                     ['id' => $delivery_method['id']],
                     $delivery_method
                 );
-            }/* else {
-                $deliveryMethodModel = DeliveryMethod::find();
-            }*/
+            }
             unset($item['delivery_method']);
 
             $requirement = $item['requirements'];
-            // dump($requirement);
             if ($requirement) {
-                // $requirementModel = Requirement::create($requirement);
                 $requirementModel = Requirement::updateOrCreate(
                     ['products_requiring_gtd' => $requirement['products_requiring_gtd']],
                     $requirement
@@ -165,46 +141,28 @@ class OzonUpload implements ShouldQueue
             }
 
             $products = $item['products'];
-            // dump($products);
             if ($products) {
                 $productIds = [];
                 foreach($products as $product) {
-                    /*$productModel = Product::firstOrCreate([
-                            'sku' => $product['sku'],
-                        ],
-                        $product
-                    );*/
-
                     $productModel = Product::updateOrCreate(
                         ['sku' => $product['sku']],
                         $product
                     );
-                    // dump($productModel);
                     $productIds[] = $productModel->id;
                 }
-
-                // dump($productIds);
             }
             unset($item['products']);
 
-            // if (!Post::wherePostingNumber($item['posting_number'])->first()) {
             $postModel = Post::updateOrCreate(
                 ['posting_number' => $item['posting_number']],
                 $item
             );
-            // $postModel = Post::create($item);
-            // $postModel = new Post;
-            // $postModel->fill($item);
-            // $postModel = new Post($item);
-            // dump($cancellationModel);
+            
             $postModel->cancellation()->associate($cancellationModel);
             $postModel->delivery_method()->associate($deliveryMethodModel);
             $postModel->requirement()->associate($requirementModel);
             $postModel->products()->sync($productIds);
             $postModel->save();
-
-                // dd();
-            // }
         }
     }
 
@@ -228,7 +186,6 @@ class OzonUpload implements ShouldQueue
             'barcodes' => true,
             'financial_data' => true,
         ]);
-        // dump(count($result['result']['postings']));
         $response = $this->api->getResponse();
 
         if ($response->successful()) {
