@@ -22,7 +22,4 @@ class ProductStock extends Model
             'stocks' => 'json',
         ];
 
-    public function product() {
-        return $this->belongsTo(Product::class, 'product_id', 'sku');
-    }
 }
