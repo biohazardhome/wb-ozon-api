@@ -71,52 +71,9 @@ class OzonUpload implements ShouldQueue
 
         // dump(Post::max('created_at'), $dateSince);
 
-        $dates = $this->dates($dateSince);
-        foreach ($dates as [$dateSince, $dateTo]) {
-            dump($dateSince->toRfc3339String(), $dateTo->toRfc3339String());
-            $this->postDate($dateSince, $dateTo);
-        }
-    }
-
-    public function dates(Carbon $dateSince) {
-        $dates = [];
-
-        $dateTo = Carbon::now();
-
-        $diff = $dateTo->floatDiffInYears($dateSince);
-        if ($diff > 1) {
-            for($i = 0; $i < floor($diff); $i++) {
-                $dateTo = clone($dateSince);
-                if ($i === 0) {
-                    $dateTo->addYear(1)->subSecond(1);
-                }
-                $dates[] = [$dateSince, $dateTo];
-                $dateSince = $dateTo;
-            }
-            $dateTo = Carbon::now();
-            $dates[] = [$dateSince, $dateTo];
-        } else {
-            $dates[] = [$dateSince, $dateTo];
-        }
-
-        return $dates;
-    }
-
-    public function postDate(Carbon $dateSince, Carbon $dateTo) {
-        $result = $this->post($dateSince, $dateTo);
-        $response = $this->api->getResponse();
-        $i = 1;
-
-        while ($result['result']['has_next']) {
-            $result2 = $this->post($dateSince, $dateTo, $i * 1000);
-            $postings = array_merge($result['result']['postings'], $result2['result']['postings']);
-            $result['result']['postings'] = $postings;
-            $result['result']['has_next'] = $result2['result']['has_next'];
-
-            $i++;
-        }
-
-        foreach($result['result']['postings'] as $item) {
+        $postings = $api->posts($dateSince);
+        // dd($postings);
+        foreach($postings as $item) {
 
             $cancellation = $item['cancellation'];
             if ($cancellation) {
@@ -220,28 +177,5 @@ class OzonUpload implements ShouldQueue
 
     }
 
-    public function post(Carbon $dateSince, Carbon $dateTo, int $offset = 0) {
-        $result = $this->api->postingFbsListV3([
-            'delivery_method_id' => [],
-            'provider_id' => [],
-            'since' => $dateSince->toRfc3339String(),
-            'status' => '',
-            'to' => $dateTo->toRfc3339String(),
-            'status' => '',
-            'warehouse_id' => [],
-        ],
-        $offset/*,
-        with: [
-            'analytics_data' => true,
-            'barcodes' => true,
-            'financial_data' => true,
-        ]*/);
-        $response = $this->api->getResponse();
-
-        if ($response->successful()) {
-            return $result;
-        } else {
-            $response->throw();
-        }
-    }
+    
 }
