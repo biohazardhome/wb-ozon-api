@@ -24,6 +24,8 @@ class WBUpload implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected const DATE_SINCE = '2022-01-01T00:00:00.000Z';
+
     private $apiMethod = '';
 
     public $timeout = 10000;
@@ -41,7 +43,7 @@ class WBUpload implements ShouldQueue
      */
     public function handle(API $api): void
     {
-        $stats = $api->Statistics();
+        /*$stats = $api->Statistics();
         $prices = $api->Prices();
 
         $this->upload($stats, 'incomes', Income::class);
@@ -49,11 +51,31 @@ class WBUpload implements ShouldQueue
         $this->upload($stats, 'ordersFromDate', Order::class);
         $this->upload($stats, 'salesFromDate', Sale::class);
         $this->upload($stats, 'stocks', Stock::class);
-        $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);
+        $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);*/
     }
 
-    private function uploadPrices($api) {
-        $prices = $api->getPrices();
+    protected function uploadIncomes($stats) {
+        $this->upload($stats, 'incomes', Income::class);
+    }
+
+    protected function uploadOrders($stats) {
+        $this->upload($stats, 'ordersFromDate', Order::class);
+    }
+
+    protected function uploadSales($stats) {
+        $this->upload($stats, 'salesFromDate', Sale::class);
+    }
+
+    protected function uploadStocks($stats) {
+        $this->upload($stats, 'stocks', Stock::class);
+    }
+
+    protected function uploadDetailReport($stats) {
+        $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);;
+    }
+
+    protected function uploadPrices($prices) {
+        $prices = $prices->getPrices();
         if ($prices) {
             $collect = collect($prices);
             $collect = $this->transformKeys($collect);
@@ -69,7 +91,7 @@ class WBUpload implements ShouldQueue
         }
     }
 
-    private function upload($api, string $apiMethod, string $model) {
+    protected function upload($api, string $apiMethod, string $model) {
         $this->apiMethod = $apiMethod;
 
         $date = $this->getDateTime($model, $apiMethod);
@@ -86,14 +108,14 @@ class WBUpload implements ShouldQueue
         }
     }
 
-    private function getDateTime(string $model) {
+    protected function getDateTime(string $model) {
         $column = $this->apiMethod === 'detailReport' ? 'rr_dt' : 'last_change_date';
-        $date = new Carbon('2022-01-01T00:00:00');
+        $date = new Carbon(self::DATE_SINCE);
         $date = $model::max($column) ? (new Carbon($model::max($column))) : $date;
         return $date;
     }
 
-    private function creates(array $items, string $model, $date) {
+    protected function creates(array $items, string $model, $date) {
         $collect = collect($items);
 
         $collect = $collect->filter(function($item) use ($date) {
@@ -139,7 +161,7 @@ class WBUpload implements ShouldQueue
         }
     }
 
-    private function transformKeys(Collection $collect) {
+    protected function transformKeys(Collection $collect) {
         return $collect->map(function($item) {
             $item = (array) $item;
             $arr = [];
