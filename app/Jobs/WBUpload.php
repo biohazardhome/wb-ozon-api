@@ -80,7 +80,6 @@ class WBUpload implements ShouldQueue
             $collect = collect($prices);
             $collect = $this->transformKeys($collect);
             if ($collect) {
-                // dump($collect);
                 foreach($collect as $item) {
                     Price::updateOrCreate(
                         ['nm_id' => $item['nm_id']],
@@ -117,45 +116,40 @@ class WBUpload implements ShouldQueue
 
     protected function creates(array $items, string $model, $date) {
         $collect = collect($items);
-
-        $collect = $collect->filter(function($item) use ($date) {
-            if ($this->apiMethod === 'detailReport') {
-                $rr_dt = new Carbon($item->rr_dt);
-                return $rr_dt->gt($date);
-            } else {
-                $lastChangeDate = new Carbon($item->lastChangeDate);
-                return $lastChangeDate->gt($date);
-            }
-        });
-
         $collect = $this->transformKeys($collect);
+        $collect = $collect->chunk(10);
+
         if ($collect) {
-            foreach($collect as $item) {
+            foreach($collect as $items) {
                 if ($model === Income::class) {
-                    $model::updateOrCreate(
+                    /*$model::updateOrCreate(
                         [
                             'income_id' => $item['income_id'],
                             'barcode' => $item['barcode']
                         ],
                         $item
-                    );
+                    );*/
+                    $model::upsert($items->toArray(), ['income_id', 'barcode']);
                 } else if ($model === Order::class) {
-                    $model::updateOrCreate(
+                    /*$model::updateOrCreate(
                         ['odid' => $item['odid']],
                         $item
-                    );
+                    );*/
+                    $model::upsert($items->toArray(), ['odid']);
                 } else if ($model === Sale::class) {
-                    $model::updateOrCreate(
+                    /*$model::updateOrCreate(
                         ['sale_id' => $item['sale_id']],
                         $item
-                    );
+                    );*/
+                    $model::upsert($items->toArray(), ['sale_id']);
                 } else if ($model === Stock::class) {
                     $model::create($item);
                 } else if ($model === ReportDetailByPeriod::class) {
-                    $model::updateOrCreate(
+                    /*$model::updateOrCreate(
                         ['rrd_id' => $item['rrd_id']],
                         $item
-                    );
+                    );*/
+                    $model::upsert($items->toArray(), ['rrd_id']);
                 }
             }
         }
