@@ -4,13 +4,12 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-// use App\Jobs\WBUpload;
-use App\Jobs\WBIncomeUpload;
-use App\Jobs\WBOrdersUpload;
-use App\Jobs\WBSalesUpload;
-use App\Jobs\WBStocksUpload;
-use App\Jobs\WBDetailReportUpload;
-use App\Jobs\WBPricesUpload;
+use App\Jobs\WB\IncomeUpload;
+use App\Jobs\WB\OrderUpload;
+use App\Jobs\WB\SaleUpload;
+use App\Jobs\WB\StockUpload;
+use App\Jobs\WB\DetailReportUpload;
+use App\Jobs\WB\PriceUpload;
 use App\Jobs\OzonUpload;
 
 class Kernel extends ConsoleKernel
@@ -21,12 +20,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->job(new WBIncomeUpload)->dailyAt('00:00');
-        $schedule->job(new WBOrdersUpload)->dailyAt('00:00');
-        $schedule->job(new WBSalesUpload)->dailyAt('00:00');
-        $schedule->job(new WBStocksUpload)->dailyAt('00:00');
-        $schedule->job(new WBDetailReportUpload)->dailyAt('00:00');
-        $schedule->job(new WBPricesUpload)->dailyAt('00:00');
+        $schedule->job(new IncomeUpload)->dailyAt('00:00');
+        $schedule->job(new OrderUpload)->dailyAt('00:00');
+        $schedule->job(new SaleUpload)->dailyAt('00:00');
+        $schedule->job(new StockUpload)->dailyAt('00:00');
+        $schedule->job(new DetailReportUpload)->dailyAt('00:00');
+        $schedule->job(new PriceUpload)->dailyAt('00:00');
         
         $schedule->job(new OzonUpload)->dailyAt('00:30');
     }

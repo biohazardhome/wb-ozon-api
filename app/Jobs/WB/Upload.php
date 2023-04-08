@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\WB;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -20,7 +20,7 @@ use App\Models\WB\Sale;
 use App\Models\WB\Stock;
 use App\Models\WB\ReportDetailByPeriod;
 
-class WBUpload implements ShouldQueue
+class Upload implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -143,7 +143,7 @@ class WBUpload implements ShouldQueue
                     );*/
                     $model::upsert($items->toArray(), ['sale_id']);
                 } else if ($model === Stock::class) {
-                    $model::create($item);
+                    $model::upsert($items->toArray(), []);
                 } else if ($model === ReportDetailByPeriod::class) {
                     /*$model::updateOrCreate(
                         ['rrd_id' => $item['rrd_id']],

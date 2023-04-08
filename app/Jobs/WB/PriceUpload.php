@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\WB;
 
 use Dakword\WBSeller\API;
-use App\Jobs\WBUpload;
+use App\Jobs\WB\Upload;
 
-class WBDetailReportUpload extends WBUpload
+class PriceUpload extends Upload
 {
-    public $timeout = 10000;
-
     /**
      * Create a new job instance.
      */
@@ -22,8 +20,8 @@ class WBDetailReportUpload extends WBUpload
      */
     public function handle(API $api): void
     {
-        $stats = $api->Statistics();
-        $this->uploadDetailReport($stats);        
+        $prices = $api->Prices();
+        $this->uploadPrices($prices);        
     }
 
 }
