@@ -5,7 +5,7 @@ namespace App\Jobs\WB;
 use Dakword\WBSeller\API;
 use App\Jobs\WB\Upload;
 
-class WBDetailReportUpload extends Upload
+class DetailReportUpload extends Upload
 {
     /**
      * Create a new job instance.
