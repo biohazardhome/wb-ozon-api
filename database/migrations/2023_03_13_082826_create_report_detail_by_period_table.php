@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('report_detail_by_period', function (Blueprint $table) {
+        Schema::create('wb_report_detail_by_period', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('realizationreport_id');
             $table->dateTime('date_from');
@@ -76,6 +76,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('report_detail_by_period');
+        Schema::dropIfExists('wb_report_detail_by_period');
     }
 };

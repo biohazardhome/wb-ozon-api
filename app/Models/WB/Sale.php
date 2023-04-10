@@ -12,6 +12,7 @@ class Sale extends Model
     use HasFactory;
 
     protected
+        $table = 'wb_sales',
         $fillable = [
             'sale_id',
             'g_number',

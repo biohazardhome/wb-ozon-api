@@ -11,6 +11,7 @@ class Income extends Model
     use HasFactory;
 
     protected
+        $table = 'wb_incomes',
         $fillable = [
             'income_id',
             'number',

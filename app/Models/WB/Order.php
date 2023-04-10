@@ -12,6 +12,7 @@ class Order extends Model
     use HasFactory;
 
     protected
+        $table = 'wb_orders',
         $fillable = [
             'g_number',
             'date',

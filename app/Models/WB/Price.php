@@ -10,6 +10,7 @@ class Price extends Model
     use HasFactory;
 
     protected
+        $table = 'wb_prices',
         $fillable = [
             'nm_id',
             'price',

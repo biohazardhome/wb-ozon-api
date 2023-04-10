@@ -11,6 +11,7 @@ class Stock extends Model
     use HasFactory;
 
     protected
+        $table = 'wb_stocks',
         $fillable = [
             'last_change_date',
             'supplier_article',

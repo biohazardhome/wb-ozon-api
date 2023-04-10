@@ -11,7 +11,7 @@ class ReportDetailByPeriod extends Model
     use HasFactory;
 
     protected
-        $table = 'report_detail_by_period',
+        $table = 'wb_report_detail_by_period',
         $fillable = [
             'realizationreport_id',
             'date_from',
