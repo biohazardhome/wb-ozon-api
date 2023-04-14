@@ -27,11 +27,13 @@ return new class extends Migration
             $table->string('ts_name')->nullable();
             $table->string('barcode');
             $table->string('doc_type_name');
+            $table->integer('quantity');
             $table->decimal('retail_price', 8, 2);
             $table->decimal('retail_amount', 8, 2);
             $table->integer('sale_percent');
             $table->decimal('commission_percent', 8, 2);
             $table->string('office_name')->nullable();
+            $table->string('supplier_oper_name');
             $table->dateTime('order_dt');
             $table->dateTime('sale_dt');
             $table->dateTime('rr_dt');

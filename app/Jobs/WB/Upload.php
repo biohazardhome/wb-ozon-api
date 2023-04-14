@@ -52,6 +52,7 @@ class Upload implements ShouldQueue
         $this->upload($stats, 'salesFromDate', Sale::class);
         $this->upload($stats, 'stocks', Stock::class);
         $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);*/
+
     }
 
     protected function uploadIncomes($stats) {
@@ -121,35 +122,42 @@ class Upload implements ShouldQueue
 
         if ($collect) {
             foreach($collect as $items) {
+
+                $items = $items->map(function (object $item/*, int $key*/) {
+                    return (array) $item;
+                });
+
                 if ($model === Income::class) {
-                    /*$model::updateOrCreate(
-                        [
-                            'income_id' => $item['income_id'],
-                            'barcode' => $item['barcode']
-                        ],
-                        $item
-                    );*/
                     $model::upsert($items->toArray(), ['income_id', 'barcode']);
                 } else if ($model === Order::class) {
-                    /*$model::updateOrCreate(
-                        ['odid' => $item['odid']],
-                        $item
-                    );*/
                     $model::upsert($items->toArray(), ['odid']);
                 } else if ($model === Sale::class) {
-                    /*$model::updateOrCreate(
-                        ['sale_id' => $item['sale_id']],
-                        $item
-                    );*/
                     $model::upsert($items->toArray(), ['sale_id']);
                 } else if ($model === Stock::class) {
                     $model::upsert($items->toArray(), []);
                 } else if ($model === ReportDetailByPeriod::class) {
-                    /*$model::updateOrCreate(
-                        ['rrd_id' => $item['rrd_id']],
-                        $item
-                    );*/
-                    $model::upsert($items->toArray(), ['rrd_id']);
+
+                    $items = $items->map(function (array $item) {
+                        $item = (object) $item;
+                        $item->date_to = Carbon::parse($item->date_to)->format(DateTime::RFC3339);
+                        $item->date_from = Carbon::parse($item->date_from)->format(DateTime::RFC3339);
+                        $item->create_dt = Carbon::parse($item->create_dt)->format(DateTime::RFC3339);
+                        $item->order_dt = Carbon::parse($item->order_dt)->format(DateTime::RFC3339);
+                        $item->sale_dt = Carbon::parse($item->sale_dt)->format(DateTime::RFC3339);
+                        $item->rr_dt = Carbon::parse($item->rr_dt)->format(DateTime::RFC3339);
+
+                        if (empty($item->bonus_type_name)) {
+                            $item->bonus_type_name = null;
+                        }
+
+                        if (empty($item->ppvz_office_name)) {
+                            $item->ppvz_office_name = null;
+                        }
+
+                        return (array) $item;
+                    });
+
+                    $model::upsert($items->toArray(), ['rrd_id']);                    
                 }
             }
         }
@@ -157,6 +165,7 @@ class Upload implements ShouldQueue
 
     protected function transformKeys(Collection $collect) {
         return $collect->map(function($item) {
+            // $itemObj = new \stdClass;
             $item = (array) $item;
             $arr = [];
             foreach($item as $property => $value) {
@@ -165,9 +174,13 @@ class Upload implements ShouldQueue
                 $property = Str::snake($property);
 
                 $arr[$property] = $value;
+                // dump($property, $value);
+                // $itemObj->{$property} = $value;
             }
 
-            return $arr;
+            return (object) $arr;
+            // dump($itemObj);
+            // return $itemObj;
         });
     }
 }
