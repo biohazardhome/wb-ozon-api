@@ -5,13 +5,15 @@ namespace App\Models\WB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\WB\Price;
+use lyragosa\Laravel\Eloquent\HasCompositePrimaryKeys;
 
 class Income extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCompositePrimaryKeys;
 
     protected
         $table = 'wb_incomes',
+        $primaryKey = ['income_id', 'barcode'],
         $fillable = [
             'income_id',
             'number',
