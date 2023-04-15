@@ -5,11 +5,11 @@ namespace App\Models\WB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\WB\Price;
-use lyragosa\Laravel\Eloquent\HasCompositePrimaryKeys;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class Income extends Model
 {
-    use HasFactory, HasCompositePrimaryKeys;
+    use HasFactory, HasCompositeKey;
 
     protected
         $table = 'wb_incomes',
