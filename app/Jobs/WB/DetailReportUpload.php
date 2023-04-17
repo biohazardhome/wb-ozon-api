@@ -4,24 +4,19 @@ namespace App\Jobs\WB;
 
 use Dakword\WBSeller\API;
 use App\Jobs\WB\Upload;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class DetailReportUpload extends Upload
 {
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Execute the job.
      */
-    public function handle(API $api): void
+    public function handle(): void
     {
-        $stats = $api->Statistics();
-        $this->uploadDetailReport($stats);        
+        Log::info('Wildberries api upload detail-report data');
+        Artisan::call('detail-report-upload -v');
+        $this->showPanel();
     }
 
 }

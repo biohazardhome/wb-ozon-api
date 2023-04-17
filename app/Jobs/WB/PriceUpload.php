@@ -4,24 +4,19 @@ namespace App\Jobs\WB;
 
 use Dakword\WBSeller\API;
 use App\Jobs\WB\Upload;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class PriceUpload extends Upload
 {
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Execute the job.
      */
-    public function handle(API $api): void
+    public function handle(): void
     {
-        $prices = $api->Prices();
-        $this->uploadPrices($prices);        
+        Log::info('Wildberries api upload prices data');
+        Artisan::call('price-upload -v');
+        $this->showPanel();
     }
 
 }

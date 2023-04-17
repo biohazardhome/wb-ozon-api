@@ -6,9 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "biohazard/laravel-debug-console": "dev-master",
         "dakword/wbseller": "^3.4",
+        "frostrain/laravel-console-debug": "^0.2.0",
         "guzzlehttp/guzzle": "^7.2",
+        "iffifan/laravel-debugbar-memory": "dev-master",
         "laravel/framework": "^10.0",
+        "laravel/helpers": "^1.6",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "thiagoprz/eloquent-composite-key": "^1.0"

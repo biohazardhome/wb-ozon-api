@@ -1,14 +1,8 @@
 <?php
 
-namespace App\Jobs\WB;
+namespace App\Console\Command;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Bus\Batchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Console\Command;
 use Dakword\WBSeller\API;
 use Carbon\Carbon;
 use DateTime;
@@ -20,66 +14,35 @@ use App\Models\WB\Order;
 use App\Models\WB\Sale;
 use App\Models\WB\Stock;
 use App\Models\WB\ReportDetailByPeriod;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Illuminate\Console\OutputStyle;
 
-class Upload implements ShouldQueue
+class Upload extends Command
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'wb-upload';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Wildberries upload api data';
 
     protected const DATE_SINCE = '2022-01-01T00:00:00.000Z';
 
     private $apiMethod = '';
 
-    public
-        $timeout = 10000,
-        $tries = 3;
-
     /**
-     * Create a new job instance.
+     * Execute the console command.
      */
-    public function __construct()
-    {
+    public function handle(API $api) {
         
     }
 
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
-    {
-        /*$stats = $api->Statistics();
-        $prices = $api->Prices();
 
-        $this->upload($stats, 'incomes', Income::class);
-        $this->uploadPrices($prices);
-        $this->upload($stats, 'ordersFromDate', Order::class);
-        $this->upload($stats, 'salesFromDate', Sale::class);
-        $this->upload($stats, 'stocks', Stock::class);
-        $this->upload($stats, 'detailReport', ReportDetailByPeriod::class);*/
-
-    }
-
-    protected function showPanel(): void {
-        $this->showDebugPanelConsole();
-    }
-
-    protected function showDebugPanelConsole(): void {
-        $command = app()->make('console-output-debug');
-
-        $params = [];
-        $input = new ArrayInput($params);
-        $output = new ConsoleOutput();
-
-        $outputStyle = new OutputStyle($input, $output);
-        $outputStyle->setVerbosity(ConsoleOutput::VERBOSITY_VERBOSE);
-
-        $command->setInput($input);
-        $command->setOutput($outputStyle);
-
-        $command->handle();
-    }
 
     protected function uploadIncomes($stats) {
         $this->upload($stats, 'incomes', Income::class);
@@ -108,6 +71,7 @@ class Upload implements ShouldQueue
             $collect = $this->transformKeys($collect);
             if ($collect) {
                 foreach($collect as $item) {
+                    $item = (array) $item;
                     Price::updateOrCreate(
                         ['nm_id' => $item['nm_id']],
                         $item
@@ -183,7 +147,7 @@ class Upload implements ShouldQueue
                         return (array) $item;
                     });
 
-                    $model::upsert($items->toArray(), ['rrd_id']);
+                    $model::upsert($items->toArray(), ['rrd_id']);                    
                 }
             }
         }
