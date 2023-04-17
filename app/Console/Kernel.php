@@ -63,7 +63,7 @@ class Kernel extends ConsoleKernel
             // dump($batch);
         })->name('WB uploads')
             // ->allowFailures(false)
-            ->dailyAt('11:04')
+            ->dailyAt('00:00')
             // ->appendOutputTo(storage_path('logs/wb-jobs.log'));
             ->sendOutputTo(storage_path('logs/wb-jobs.log'))
             ->after(function() {
@@ -73,42 +73,6 @@ class Kernel extends ConsoleKernel
             });
 
 
-
-        /*$schedule->job($bus)
-            ->dailyAt('09:11')*//*
-            ->runInBackground()*//*
-            ->appendOutputTo($filePath)*/;
-
-        /*$schedule->job(new IncomeUpload)
-            ->dailyAt('00:00')
-            ->runInBackground()
-            ->appendOutputTo($filePath);
-
-        $schedule->job(new OrderUpload)
-            ->dailyAt('00:00')
-            ->runInBackground()
-            ->appendOutputTo($filePath);
-
-        $schedule->job(new SaleUpload)
-            ->dailyAt('00:00')
-            ->runInBackground()
-            ->appendOutputTo($filePath);
-
-        $schedule->job(new StockUpload)
-            ->dailyAt('00:00')
-            ->runInBackground()
-            ->appendOutputTo($filePath);
-
-        $schedule->job(new DetailReportUpload)
-            ->dailyAt('00:00')
-            ->runInBackground()
-            ->appendOutputTo($filePath);
-
-        $schedule->job(new PriceUpload)
-            ->dailyAt('00:00')
-            ->runInBackground()
-            ->appendOutputTo($filePath);
-*/
         
         $schedule->command('queue:prune-batches')->daily();
 
