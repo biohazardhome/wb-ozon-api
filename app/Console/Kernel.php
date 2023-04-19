@@ -77,6 +77,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:prune-batches')->daily();
 
         $schedule->job(new OzonUpload)->dailyAt('00:30')/*->runInBackground()*/;
+
+        $schedule->command('telescope:prune --hours=48')->daily();
     }
 
     /**
