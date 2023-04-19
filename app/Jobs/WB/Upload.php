@@ -62,7 +62,7 @@ class Upload implements ShouldQueue
     }
 
     protected function showPanel(): void {
-        $this->showDebugPanelConsole();
+        if (config('app.debug')) { $this->showDebugPanelConsole(); }
     }
 
     protected function showDebugPanelConsole(): void {
@@ -106,12 +106,10 @@ class Upload implements ShouldQueue
         if ($prices) {
             $collect = collect($prices);
             $collect = $this->transformKeys($collect);
-            if ($collect) {
-                foreach($collect as $item) {
-                    Price::updateOrCreate(
-                        ['nm_id' => $item['nm_id']],
-                        $item
-                    );
+            if ($collect->count()) {
+                $collect = $collect->chunk(10);
+                foreach($collect as $items) {
+                    Price::upsert($items->toArray(), ['nm_id']);
                 }
             }
         }
@@ -143,10 +141,10 @@ class Upload implements ShouldQueue
 
     protected function creates(array $items, string $model, $date) {
         $collect = collect($items);
-        $collect = $this->transformKeys($collect);
-        $collect = $collect->chunk(10);
+        if ($collect->count()) {
+            $collect = $this->transformKeys($collect);
+            $collect = $collect->chunk(10);
 
-        if ($collect) {
             foreach($collect as $items) {
 
                 $items = $items->map(function (object $item/*, int $key*/) {
