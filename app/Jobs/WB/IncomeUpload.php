@@ -9,23 +9,14 @@ use Illuminate\Support\Facades\Log;
 
 class IncomeUpload extends Upload
 {
-
     /**
      * Execute the job.
      */
     public function handle(/*API $api*/): void
     {
         Log::info('Wildberries api upload incomes data');
-        
-        Artisan::call('income-upload -v');
-
+        Artisan::call('wb-upload:income -v');
         $this->showPanel();
-
-        // dump(Artisan::output());
-
-        /*Artisan::call('income-upload', [
-            '-v' => true,
-        ]);*/
     }
 
 }

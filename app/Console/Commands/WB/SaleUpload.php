@@ -12,7 +12,7 @@ class SaleUpload extends Upload
      *
      * @var string
      */
-    protected $signature = 'sale-upload';
+    protected $signature = 'wb-upload:sale';
 
     /**
      * The console command description.

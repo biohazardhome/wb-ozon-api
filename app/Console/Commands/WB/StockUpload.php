@@ -12,7 +12,7 @@ class StockUpload extends Upload
      *
      * @var string
      */
-    protected $signature = 'stock-upload';
+    protected $signature = 'wb-upload:stock';
 
     /**
      * The console command description.

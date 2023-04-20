@@ -15,7 +15,7 @@ class DetailReportUpload extends Upload
     public function handle(): void
     {
         Log::info('Wildberries api upload detail-report data');
-        Artisan::call('detail-report-upload -v');
+        Artisan::call('wb-upload:detail-report -v');
         $this->showPanel();
     }
 

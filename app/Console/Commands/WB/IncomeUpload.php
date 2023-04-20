@@ -12,7 +12,7 @@ class IncomeUpload extends Upload
      *
      * @var string
      */
-    protected $signature = 'income-upload';
+    protected $signature = 'wb-upload:income';
 
     /**
      * The console command description.
@@ -33,9 +33,6 @@ class IncomeUpload extends Upload
         $this->info('Wildberries api upload incomes data');
 
         $stats = $api->Statistics();
-        /*var_dump(count($stats->stocks(
-            new \DateTime(self::DATE_SINCE)
-        )));*/
         $this->uploadIncomes($stats);  
     }
 }

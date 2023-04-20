@@ -12,7 +12,7 @@ class OrderUpload extends Upload
      *
      * @var string
      */
-    protected $signature = 'order-upload';
+    protected $signature = 'wb-upload:order';
 
     /**
      * The console command description.

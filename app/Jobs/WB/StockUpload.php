@@ -15,7 +15,7 @@ class StockUpload extends Upload
     public function handle(): void
     {
         Log::info('Wildberries api upload stocks data');
-        Artisan::call('stock-upload -v');
+        Artisan::call('wb-upload:stock -v');
         $this->showPanel();
     }
 

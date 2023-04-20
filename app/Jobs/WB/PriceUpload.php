@@ -15,7 +15,7 @@ class PriceUpload extends Upload
     public function handle(): void
     {
         Log::info('Wildberries api upload prices data');
-        Artisan::call('price-upload -v');
+        Artisan::call('wb-upload:price -v');
         $this->showPanel();
     }
 

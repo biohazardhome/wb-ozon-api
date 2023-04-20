@@ -12,7 +12,7 @@ class PriceUpload extends Upload
      *
      * @var string
      */
-    protected $signature = 'price-upload';
+    protected $signature = 'wb-upload:price';
 
     /**
      * The console command description.

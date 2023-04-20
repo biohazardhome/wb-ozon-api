@@ -15,7 +15,7 @@ class SaleUpload extends Upload
     public function handle(): void
     {
         Log::info('Wildberries api upload sales data');
-        Artisan::call('sale-upload -v');
+        Artisan::call('wb-upload:sale -v');
         $this->showPanel();
     }
 

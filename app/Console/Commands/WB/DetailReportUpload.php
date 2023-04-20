@@ -12,7 +12,7 @@ class DetailReportUpload extends Upload
      *
      * @var string
      */
-    protected $signature = 'detail-report-upload';
+    protected $signature = 'wb-upload:detail-report';
 
     /**
      * The console command description.

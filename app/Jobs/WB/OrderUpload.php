@@ -15,7 +15,7 @@ class OrderUpload extends Upload
     public function handle(): void
     {
         Log::info('Wildberries api upload orders data');
-        Artisan::call('order-upload -v');
+        Artisan::call('wb-upload:order -v');
         $this->showPanel();
     }
 
