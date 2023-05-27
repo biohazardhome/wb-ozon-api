@@ -19,19 +19,16 @@ class IncomeUpload extends Upload
      *
      * @var string
      */
-    protected $description = 'Command description';
-    protected $name = 'WB upload';
+    protected $description = 'Wildberries api incomes prepare jobs and call their for upload data';
+    protected $name = 'Wildberries api upload';
 
-    protected $verbosity = 3;
+    // protected $verbosity = 3;
 
     /**
      * Execute the console command.
      */
     public function handle(API $api): void
     {
-
-        $this->info('Wildberries api upload incomes data');
-
         $stats = $api->Statistics();
         $this->uploadIncomes($stats);  
     }

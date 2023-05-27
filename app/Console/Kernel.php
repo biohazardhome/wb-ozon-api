@@ -20,7 +20,8 @@ use App\Console\Command\WB\SaleUpload as SaleUploadCommand;
 use App\Console\Command\WB\StockUpload as StockUploadCommand;
 use App\Console\Command\WB\DetailReportUpload as DetailReportUploadCommand;
 use App\Console\Command\WB\PriceUpload as PriceUploadCommand;
-use Frostrain\Laravel\ConsoleDebug\ConsoleOutputDebugCommand;
+// use Frostrain\Laravel\ConsoleDebug\ConsoleOutputDebugCommand;
+// use App\Console\Command\WorkCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
         DetailReportUploadCommand::class,
         PriceUploadCommand::class,
         // ConsoleOutputDebugCommand::class,
+        // WorkCommand::class,
     ];
 
     /**
@@ -41,8 +43,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-
-        
 
         $schedule->call(function () {
             $batch = Bus::batch([
@@ -63,7 +63,7 @@ class Kernel extends ConsoleKernel
             // dump($batch);
         })->name('WB uploads')
             // ->allowFailures(false)
-            ->dailyAt('00:00')
+            ->dailyAt('10:56')
             // ->appendOutputTo(storage_path('logs/wb-jobs.log'));
             ->sendOutputTo(storage_path('logs/wb-jobs.log'))
             ->after(function() {
@@ -74,10 +74,9 @@ class Kernel extends ConsoleKernel
 
 
         
-        $schedule->command('queue:prune-batches')->daily();
-
         $schedule->job(new OzonUpload)->dailyAt('00:30')/*->runInBackground()*/;
 
+        $schedule->command('queue:prune-batches --hours=48')->daily();
         $schedule->command('telescope:prune --hours=48')->daily();
     }
 

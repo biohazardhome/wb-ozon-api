@@ -19,15 +19,13 @@ class SaleUpload extends Upload
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Wildberries api sales prepare jobs and call their for upload data';
 
     /**
      * Execute the console command.
      */
     public function handle(API $api): void
     {
-        $this->info('Wildberries api upload sales data');
-
         $stats = $api->Statistics();
         $this->uploadSales($stats);  
     }

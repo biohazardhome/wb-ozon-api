@@ -19,15 +19,13 @@ class OrderUpload extends Upload
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Wildberries api orders prepare jobs and call their for upload data';
 
     /**
      * Execute the console command.
      */
     public function handle(API $api): void
     {
-        $this->info('Wildberries api upload orders data');
-
         $stats = $api->Statistics();
         $this->uploadOrders($stats);  
     }
