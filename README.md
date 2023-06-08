@@ -1,4 +1,7 @@
+``
+
 ```
+./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan help schedule:work
 ./vendor/bin/sail artisan queue:work --timeout=1000 --tries=3 --memory=1024
 ```
