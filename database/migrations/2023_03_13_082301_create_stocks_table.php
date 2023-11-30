@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('wb_stocks', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('last_change_date');
+            $table->dateTime('last_change_date')->index();
             $table->string('supplier_article', 75);
             $table->string('tech_size', 30);
             $table->string('barcode', 30);
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_realization');
             $table->integer('quantity_full');
             $table->string('warehouse_name', 50);
-            $table->unsignedInteger('nm_id');
+            $table->unsignedInteger('nm_id')->index();
             $table->string('subject', 50);
             $table->string('category', 50);
             $table->integer('days_on_site');

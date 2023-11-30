@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('sale_id', 15)->unique();
             $table->string('g_number', 50);
             $table->dateTime('date');
-            $table->dateTime('last_change_date');
+            $table->dateTime('last_change_date')->index();
             $table->string('supplier_article', 75);
             $table->string('tech_size', 30);
             $table->string('barcode', 30);
@@ -29,13 +29,14 @@ return new class extends Migration
             $table->string('country_name', 200);
             $table->string('oblast_okrug_name', 200);
             $table->string('region_name', 200);
-            $table->unsignedInteger('income_id');
-            $table->unsignedBigInteger('odid');
+            $table->unsignedInteger('income_id')->index();
+            // $table->unsignedBigInteger('odid');
+            $table->string('odid');
             $table->decimal('spp', 8, 2);
             $table->decimal('for_pay', 8, 2);
             $table->decimal('finished_price', 8, 2);
             $table->decimal('price_with_disc', 8, 2);
-            $table->unsignedInteger('nm_id');
+            $table->unsignedInteger('nm_id')->index();
             $table->string('subject', 50);
             $table->string('category', 50);
             $table->string('brand', 50);

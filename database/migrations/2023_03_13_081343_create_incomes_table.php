@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('income_id');
             $table->string('number');
             $table->date('date');
-            $table->dateTime('last_change_date');
+            $table->dateTime('last_change_date')->index();
             $table->string('supplier_article', 75);
             $table->string('tech_size', 30);
             $table->string('barcode', 30);

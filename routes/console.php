@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Arr;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,39 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+/*Artisan::command('income-upload', function(){
+    
+});*/
+
+
+Artisan::command('test', function(){
+    try {
+        // $memoryStart = memory_get_peak_usage(false);
+
+
+
+        start_memory_measure('Some Loop');
+        // $this->line('hello!');
+
+        \App\Models\User::first();
+        \App\Models\WB\Income::all();
+
+        stop_memory_measure('Some Loop');
+
+
+
+        /*$memoryEnd = memory_get_peak_usage(false);
+        $memory = $memoryEnd - $memoryStart;
+        // dump($memoryStart, $memoryEnd, $memory);
+        $memory = debugbar()
+            ->getCollector('memory_details')
+            ->getDataFormatter()
+            ->formatBytes($memory);
+
+        dump($memory);*/
+    } catch (Throwable $e) {
+        Debugbar::addThrowable($e);
+        echo $e->getMessage() .' line: '. $e->getLine();
+    }
+});

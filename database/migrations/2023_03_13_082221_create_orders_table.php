@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('odid')->unique();
             $table->string('g_number', 50);
             $table->dateTime('date');
-            $table->dateTime('last_change_date');
+            $table->dateTime('last_change_date')->index();
             $table->string('supplier_article', 75);
             $table->string('tech_size', 30);
             $table->string('barcode', 30);
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('warehouse_name', 50);
             $table->string('oblast', 200);
             $table->unsignedInteger('income_id')->index();
-            $table->unsignedInteger('nm_id');
+            $table->unsignedInteger('nm_id')->index();
             $table->string('subject', 50);
             $table->string('category', 50);
             $table->string('brand', 50);
@@ -33,6 +33,7 @@ return new class extends Migration
             $table->dateTime('cancel_dt');
             $table->string('sticker');
             $table->string('srid');
+            $table->string('order_type');
             $table->timestamps();
         });
     }

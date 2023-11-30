@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Console\Command\WB;
+namespace App\Console\Commands\WB;
 
-use App\Console\Command\Upload;
+// use App\Console\Commands\Upload;
 use Dakword\WBSeller\API;
 
-class OrderUpload extends Upload
+class Order extends Upload
 {
     /**
      * The name and signature of the console command.
@@ -24,9 +24,8 @@ class OrderUpload extends Upload
     /**
      * Execute the console command.
      */
-    public function handle(API $api): void
+    public function handle(): void
     {
-        $stats = $api->Statistics();
-        $this->uploadOrders($stats);  
+        $this->uploadOrders();  
     }
 }

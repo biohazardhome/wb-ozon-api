@@ -2,20 +2,19 @@
 
 namespace App\Models\WB;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class Price extends Model
 {
-    use HasFactory;
 
     protected
         $table = 'wb_prices',
+        $primaryKey = 'nm_id',
         $fillable = [
             'nm_id',
             'price',
             'discount',
-            'promoCode',
+            'promo_code',
         ],
         $casts = [
             'nm_id' => 'integer',

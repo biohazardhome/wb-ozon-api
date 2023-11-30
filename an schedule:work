@@ -1,0 +1,179 @@
+[33mcommit 79b1617cd48136dba0ea1c5c3ae9ac0021770e20[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Sat May 27 14:00:49 2023 +0300
+
+    Update
+
+[33mcommit 221c38005cdde41b0d3aee26f9f7c8c28b493fad[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Thu Apr 20 09:38:57 2023 +0300
+
+    Rename signature
+
+[33mcommit 5b871bca88434ce5328e97d59a77e408d19fe684[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Wed Apr 19 19:02:56 2023 +0300
+
+    Add package telescope
+
+[33mcommit 38fc5c18cdcf3ec3a9ecb40398fa10b28f341b04[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Wed Apr 19 18:59:52 2023 +0300
+
+    Replace updateOrCreate on upsert
+
+[33mcommit 63571d605e39a015555e27815200f0613d6397be[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Apr 17 17:11:00 2023 +0300
+
+    Change time schedule call for WB uploads
+
+[33mcommit bf45c5a39454137a1edd54dbd3525b962a611766[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Apr 17 10:42:13 2023 +0300
+
+    Change logs on daily
+
+[33mcommit d9bd0a639b3e7ff6d3e1e883773d65b16e7f8150[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Apr 17 10:41:05 2023 +0300
+
+    Add commands and console panel debug
+
+[33mcommit 7ff6bd8a92eea6b638d77e211bb9306878a858ee[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Sat Apr 15 11:08:51 2023 +0300
+
+    Replace package lyragosa/eloquent-composite-primary-keys on thiagoprz/eloquent-composite-key
+
+[33mcommit 9abe51b55fccc0d7dab11e8b8b530e5f7ff77f5a[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Sat Apr 15 10:54:52 2023 +0300
+
+    Add trait HasCompositePrimaryKeys
+
+[33mcommit b6874f1ddaca80549f29331bfeba4874f9202fdf[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Fri Apr 14 15:23:26 2023 +0300
+
+    Reolace updateOrCreate on upsert inDetailReportUpload
+
+[33mcommit 0144e3d0e2c87dbe81884f4aae6777ffd8c7b89b[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Apr 10 07:37:41 2023 +0300
+
+    Rename tables
+
+[33mcommit ebeb3ac859be1acbc42134cefd293a7c446e5c59[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Apr 10 07:36:51 2023 +0300
+
+    Rename class
+
+[33mcommit 23e8b8c2a6b73f0baf0b129b6da43973d293a06e[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Sat Apr 8 11:44:41 2023 +0300
+
+    Create folder WB and rename files
+
+[33mcommit 4bb44a8ee63586b795610e3af955f18d6ef5e9cb[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Sat Apr 8 11:16:33 2023 +0300
+
+    Replace updateOrCreate on upsert
+
+[33mcommit 3588b47147e3bdf1f12e5413962064407fc806e9[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Mar 20 13:09:18 2023 +0300
+
+    Update WB jobs
+
+[33mcommit 9b7f7888447bba727ed165e13d1529aed250bf82[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Mon Mar 20 13:07:08 2023 +0300
+
+    Update Ozon api
+
+[33mcommit 51fb7d289b12ca24b0b0e63581ea87325188e8f0[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Fri Mar 17 14:14:59 2023 +0300
+
+    Update job OzonUpload
+
+[33mcommit f03a7a7aaffbc78c18ba2fb870e71e3c5c3875be[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Fri Mar 17 09:22:44 2023 +0300
+
+    Return calls
+
+[33mcommit ab3f165d7f1f153afc7de5604441ce416f735ab9[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Fri Mar 17 09:13:26 2023 +0300
+
+    Delete comments
+
+[33mcommit 7a4f1cbccae6581171aeb324bc06135c6f6ae324[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Fri Mar 17 09:12:50 2023 +0300
+
+    Delete relation product
+
+[33mcommit 15b9425b1ea7c83eefc9c10c2b17a8623bdc99db[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Thu Mar 16 23:53:35 2023 +0300
+
+    Replace create on updateOrCreate
+
+[33mcommit 058e96a2a95d13f041b9c34417063595d6529551[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Thu Mar 16 23:51:45 2023 +0300
+
+    Change migrations
+
+[33mcommit d320e481b0e8bb4a242a72e1653d26a7725a82f0[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Thu Mar 16 19:47:57 2023 +0300
+
+    add env file
+
+[33mcommit a351516a73a0a65cc2baef4db5bd9a0d7c28f7d1[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Thu Mar 16 19:44:36 2023 +0300
+
+    Rename model Info to Price
+
+[33mcommit c75ce50c16030edfb0a1274de6c4946870f701f8[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Thu Mar 16 16:59:09 2023 +0300
+
+    Update
+
+[33mcommit b9b7e3c796c32c17f3acfdffe31f43161d932928[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Wed Mar 15 11:19:11 2023 +0300
+
+    Change timeout
+
+[33mcommit 0cede147f3badba576cc551745118e48316a1502[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Wed Mar 15 11:17:45 2023 +0300
+
+    Update Ozon api
+
+[33mcommit f17abf846bedb162857ec05785153c5a9596aa95[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Wed Mar 15 09:29:31 2023 +0300
+
+    Fix cast json
+
+[33mcommit c3909e0f8f2462112360106a9277e3f6d16bb786[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Tue Mar 14 18:40:46 2023 +0300
+
+    Remove trash file
+
+[33mcommit cf625380d4cb20abb39737100836c476b6dc0abb[m
+Author: biohazardhome <biohazardhome@gmail.com>
+Date:   Tue Mar 14 18:36:26 2023 +0300
+
+    Initial

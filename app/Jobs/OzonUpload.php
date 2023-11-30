@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Carbon\Carbon;
-use App\Ozon\OzonApi;
+use App\Http\OzonApi;
 use App\Models\Ozon\ProductStock;
 use App\Models\Ozon\Post;
 use App\Models\Ozon\Cancellation;

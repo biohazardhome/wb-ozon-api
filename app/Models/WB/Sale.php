@@ -2,17 +2,16 @@
 
 namespace App\Models\WB;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use App\Models\WB\Income;
 use App\Models\WB\Price;
 
 class Sale extends Model
 {
-    use HasFactory;
 
     protected
         $table = 'wb_sales',
+        $primaryKey = 'sale_id',
         $fillable = [
             'sale_id',
             'g_number',
@@ -62,7 +61,7 @@ class Sale extends Model
             'region_name' => 'string',
             'income_id' => 'integer',
             'sale_id' => 'string',
-            'odid' => 'integer',
+            'odid' => 'string',
             'spp' => 'decimal:2',
             'for_pay' => 'decimal:2',
             'finished_price' => 'decimal:2',

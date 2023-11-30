@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Http;
-use App\Ozon\OzonApi;
+use App\Http\OzonApi;
 
 class Ozon extends ServiceProvider
 {
@@ -26,8 +26,8 @@ class Ozon extends ServiceProvider
         Http::macro('ozonApi', function () {
             return Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Client-Id' => '548079',
-                'Api-Key' => '34ea43a2-95df-47c3-a4b8-602e98680936',
+                'Client-Id' => env('OZON_CLIENT_ID'),
+                'Api-Key' => env('OZON_API_KEY'),
             ])->baseUrl('https://api-seller.ozon.ru/');
         });
 

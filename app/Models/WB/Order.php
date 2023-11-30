@@ -2,17 +2,16 @@
 
 namespace App\Models\WB;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use App\Models\WB\Income;
 use App\Models\WB\Price;
 
 class Order extends Model
 {
-    use HasFactory;
 
     protected
         $table = 'wb_orders',
+        $primaryKey = 'odid',
         $fillable = [
             'g_number',
             'date',
@@ -34,6 +33,7 @@ class Order extends Model
             'cancel_dt',
             'sticker',
             'srid',
+            'order_type',
         ],
         $casts = [
             'g_number' => 'string',
@@ -56,6 +56,7 @@ class Order extends Model
             'cancel_dt' => 'datetime',
             'sticker' => 'string',
             'srid' => 'string',
+            'order_type' => 'string',
         ],
         $dates = [
             'date',

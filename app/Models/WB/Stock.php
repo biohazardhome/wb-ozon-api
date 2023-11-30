@@ -2,16 +2,15 @@
 
 namespace App\Models\WB;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use App\Models\WB\Price;
 
 class Stock extends Model
 {
-    use HasFactory;
 
     protected
         $table = 'wb_stocks',
+        $primaryKey = 'id',
         $fillable = [
             'last_change_date',
             'supplier_article',
