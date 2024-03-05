@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_analytics', function (Blueprint $table) {
+        Schema::create('oz_post_analytics', function (Blueprint $table) {
             $table->id();
             $table->string('region')->nullable();
             $table->string('city')->nullable();

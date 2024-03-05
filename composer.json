@@ -18,6 +18,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",
+        "predis/predis": "*",
         "romanzipp/laravel-queue-monitor": "^3.0",
         "thiagoprz/eloquent-composite-key": "^1.0"
     },

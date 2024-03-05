@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_financial_product_pivots', function (Blueprint $table) {
+        Schema::create('oz_post_financial_product_pivots', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('financial_id');
             $table->unsignedInteger('product_id');

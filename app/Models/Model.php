@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model as ModelBase;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Thiagoprz\CompositeKey\HasCompositeKey;
+use Illuminate\Support\Facades\DB;
 
 class Model extends ModelBase {
 
 	use HasFactory, HasCompositeKey;
 
 	public static function findPrimary(...$ids) {
-		// $modelClass = static::class;
-        // $model = new $modelClass();
         $model = new static();
 
 		$ids = array_combine($model->primaryKey, $ids);
@@ -21,11 +20,12 @@ class Model extends ModelBase {
 	}
 
     public static function upsertPrimary(array $values, $update = null) {
-        // $modelClass = static::class;
-        // $model = new $modelClass();
         $model = new static();
-        // dump($model->primaryKey);
         return $model->upsert($values, $model->primaryKey, $update);
+    }
+
+    public static function updateOrCreatePrimary() {
+        
     }
 
 	public static function scopeWherePrimary($q, ...$ids) {
@@ -33,8 +33,6 @@ class Model extends ModelBase {
 	}
 
     public static function find($id, $columns = ['*']) {
-        // $modelClass = static::class;
-        // $model = new $modelClass();
         $model = new static();
 
         $primaryKey = $model->primaryKey;
@@ -63,6 +61,23 @@ class Model extends ModelBase {
                 }
             }
         })->first();
+    }
+
+    public static function lastInsertId() {
+        return DB::getPdo()->lastInsertId();
+    }
+
+    public function getKey()
+    {
+        $keys = $this->getKeyName();
+        dump($keys, $this->getAttribute($keys));
+        if (is_string($keys)) { dump($this);return $this->getAttribute($keys); }
+
+        $values = [];
+        array_map(function($key) use(&$values) {
+            $values[] = $this->getAttribute($key);
+        }, $keys);
+        return $values;
     }
 
 }

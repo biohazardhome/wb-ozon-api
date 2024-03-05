@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_products', function (Blueprint $table) {
+        Schema::create('oz_post_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('post_id')->index();
-            $table->unsignedInteger('product_id')->index();
+            $table->unsignedInteger('post_id');
+            $table->unsignedInteger('product_id');
 
             $table->unique(['post_id', 'product_id']);
 

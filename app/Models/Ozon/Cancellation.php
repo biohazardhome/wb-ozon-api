@@ -2,12 +2,13 @@
 
 namespace App\Models\Ozon;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
+use App\Models\Ozon\Model;
 
 class Cancellation extends Model
 {
-    use HasFactory;
+    // use HasFactory;
 
     protected
         $fillable = [

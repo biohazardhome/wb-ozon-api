@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cancellations', function (Blueprint $table) {
+        Schema::create('oz_cancellations', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('cancel_reason_id')->unique();
             $table->string('cancel_reason');

@@ -2,14 +2,21 @@
 
 namespace App\Models\Ozon;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Ozon\PostFinancialService;
-use App\Models\Ozon\PostFinancialProduct;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
+use App\Models\Ozon\Model;
+
+// use App\Models\Ozon\PostFinancialProduct;
+// use App\Models\Ozon\PostFinancialProductPivot;
+use App\Models\Ozon\ {
+    PostFinancialService,
+    PostFinancialProduct,
+    PostFinancialProductPivot
+};
 
 class PostFinancial extends Model
 {
-    use HasFactory;
+    // use HasFactory;
 
     protected
         $fillable = [
@@ -24,7 +31,8 @@ class PostFinancial extends Model
         ];
 
     public function products() {
-        return $this->belongsToMany(PostFinancialProduct::class, 'post_financial_product_pivots', 'financial_id', 'product_id');
+        // return $this->belongsToMany(PostFinancialProduct::class, 'post_financial_product_pivots', 'financial_id', 'product_id');
+        return $this->belongsToMany(PostFinancialProduct::class, PostFinancialProductPivot::class, 'financial_id', 'product_id');
     }
 
     public function service() {

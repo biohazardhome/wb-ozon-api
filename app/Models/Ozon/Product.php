@@ -2,12 +2,14 @@
 
 namespace App\Models\Ozon;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
+// use App\Models\Model;
+use App\Models\Ozon\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    // use HasFactory;
 
     protected
         $fillable = [

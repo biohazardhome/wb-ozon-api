@@ -2,20 +2,22 @@
 
 namespace App\Models\Ozon;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Ozon\Cancellation;
-use App\Models\Ozon\DeliveryMethod;
-use App\Models\Ozon\Requirement;
-use App\Models\Ozon\Product;
-use App\Models\Ozon\PostAnalytic;
-use App\Models\Ozon\PostFinancial;
+use App\Models\Ozon\ {
+    Model,
+    Cancellation,
+    DeliveryMethod,
+    Requirement,
+    Product,
+    PostProduct,
+    PostAnalytic,
+    PostFinancial,
+};
 
 class Post extends Model
 {
-    use HasFactory;
-
     protected
+        // $primaryKey = 'id'/*, 'posting_number'*/,
+        $touches = ['products'],
         $fillable = [
             'posting_number',
             'delivery_method_id',
@@ -43,7 +45,7 @@ class Post extends Model
         ],
         $casts = [
             'posting_number' => 'string',
-            'delivery_method_id' => 'integer',
+            'delivery_method_id' => 'int',
             'cancellation_id' => 'integer',
             'analytic_id' => 'integer',
             'financial_id' => 'json',
@@ -88,7 +90,8 @@ class Post extends Model
     }
 
     public function products() {
-        return $this->belongsToMany(Product::class, 'post_products', 'post_id', 'product_id');
+        return $this->belongsToMany(Product::class, PostProduct::class)
+            ->withTimestamps();
     }
 
     public function analytic() {
@@ -97,6 +100,25 @@ class Post extends Model
 
     public function financial() {
         return $this->belongsTo(PostFinancial::class, 'financial_id', 'id');
+    }
+
+    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null) {
+        if (is_string($related)) {
+                $classes = get_declared_classes();
+            foreach ($classes as $class) {
+                if (str_ends_with($class, $related)) {
+                    $related = $class;
+                }
+            }
+
+            if (!class_exists($related)) {
+                throw new \Exception('Not exists class', 1);
+            }
+
+            // dump($related);
+        }
+
+        return parent::belongsToMany($related, $table, $foreignPivotKey, $relatedPivotKey, $parentKey, $relatedKey, $relation);
     }
 
 

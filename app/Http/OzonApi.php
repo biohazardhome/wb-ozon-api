@@ -87,17 +87,19 @@ class OzonApi
         if ($diff > 1) {
             for($i = 0; $i < floor($diff); $i++) {
                 $dateTo = clone($dateSince);
-                if ($i === 0) {
+                // if ($i === 0) {
                     $dateTo->addYear(1)->subSecond(1);
-                }
+                // }
                 $dates[] = [$dateSince, $dateTo];
                 $dateSince = $dateTo;
             }
             $dateTo = Carbon::now();
-            $dates[] = [$dateSince, $dateTo];
-        } else {
-            $dates[] = [$dateSince, $dateTo];
-        }
+            // $dates[] = [$dateSince, $dateTo];
+        }/* else {
+            // $dates[] = [$dateSince, $dateTo];
+        }*/
+        
+        $dates[] = [$dateSince, $dateTo];
 
         return $dates;
     }

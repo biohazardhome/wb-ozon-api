@@ -2,13 +2,11 @@
 
 namespace App\Models\Ozon;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Ozon\Model;
 
 class PostFinancialProductPivot extends Model
 {
-    use HasFactory;
-
+    
     protected
         $fillable = [
             'financial_id',

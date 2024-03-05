@@ -23,7 +23,6 @@ return [
     */
 
     'commands' => [
-        // App\Console\Commands\ExampleCommand::class,
         Income::class,
         Order::class,
         Sale::class,
@@ -43,11 +42,7 @@ return [
     |
     */
 
-    'alias' => [
-        // 'Income' => App\Models\WB\Income::class,
-        // App\Models\WB\Income::class,
-        // 'App\Models\WB\Income',
-    ],
+    'alias' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -62,12 +57,6 @@ return [
 
     'dont_alias' => [
         'App\Nova',
-        Income::class,
-        Order::class,
-        Sale::class,
-        Stock::class,
-        DetailReport::class,
-        Price::class,
     ],
 
 ];

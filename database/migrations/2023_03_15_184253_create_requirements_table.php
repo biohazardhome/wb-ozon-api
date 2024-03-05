@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requirements', function (Blueprint $table) {
+        Schema::create('oz_requirements', function (Blueprint $table) {
             $table->id();
             $table->json('products_requiring_gtd');
             $table->json('products_requiring_country');

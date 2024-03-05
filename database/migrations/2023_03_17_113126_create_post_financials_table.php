@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_financials', function (Blueprint $table) {
+        Schema::create('oz_post_financials', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('service_id')->nullable()->index();
             $table->string('cluster_from');

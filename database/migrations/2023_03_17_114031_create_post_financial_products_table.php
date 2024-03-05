@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_financial_products', function (Blueprint $table) {
+        Schema::create('oz_post_financial_products', function (Blueprint $table) {
             $table->id();
             $table->integer('commission_amount');
             $table->integer('commission_percent');

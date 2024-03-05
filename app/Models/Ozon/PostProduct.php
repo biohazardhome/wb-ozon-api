@@ -3,11 +3,11 @@
 namespace App\Models\Ozon;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Ozon\Model;
 
 class PostProduct extends Model
 {
-    use HasFactory;
+    // use HasFactory;
 
     protected
         $fillable = [
@@ -18,4 +18,5 @@ class PostProduct extends Model
             'post_id' => 'integer',
             'product_id' => 'integer',
         ];
+
 }
