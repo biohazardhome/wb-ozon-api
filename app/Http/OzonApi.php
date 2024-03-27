@@ -10,24 +10,32 @@ class OzonApi
 {
 
     protected $response = null;
+    protected $responseFormat = 'array';
 
     public function __construct()
     {
 
     }
 
-    public function get(string $url, array $query = []): array
-    {
-        $response = Http::ozonApi()->get($url, $query);
+    public function request(string $type, string $url, array $query = []): mixed {
+        $response = Http::connect()->{$type}($url, $query);
         $this->response = $response;
-        return $response->json();
+        
+        if ($this->responseFormat === 'array') {
+            return $response->json();
+        } else if ($this->responseFormat === 'object') {
+            return $response->object();
+        }
     }
 
-    public function post(string $url, array $query = []): array
+    public function get(string $url, array $query = []): mixed
     {
-        $response = Http::ozonApi()->post($url, $query);
-        $this->response = $response;
-        return $response->json();
+        return $this->request('get', $url, $query);
+    }
+
+    public function post(string $url, array $query = []): mixed
+    {
+        return $this->request('post', $url, $query);;
     }
 
     public function getResponse(): Response {
@@ -94,10 +102,7 @@ class OzonApi
                 $dateSince = $dateTo;
             }
             $dateTo = Carbon::now();
-            // $dates[] = [$dateSince, $dateTo];
-        }/* else {
-            // $dates[] = [$dateSince, $dateTo];
-        }*/
+        }
         
         $dates[] = [$dateSince, $dateTo];
 
@@ -106,19 +111,18 @@ class OzonApi
 
     public function postsDate(Carbon $dateSince, Carbon $dateTo) {
         $result = $this->postsRequest($dateSince, $dateTo);
-        // $response = $this->getResponse();
         $i = 1;
 
-        while ($result['result']['has_next']) {
+        while ($result['has_next']) {
             $result2 = $this->postsRequest($dateSince, $dateTo, $i * 1000);
-            $postings = array_merge($result['result']['postings'], $result2['result']['postings']);
-            $result['result']['postings'] = $postings;
-            $result['result']['has_next'] = $result2['result']['has_next'];
+            $postings = array_merge($result['postings'], $result2['postings']);
+            $result['postings'] = $postings;
+            $result['has_next'] = $result2['has_next'];
 
             $i++;
         }
         
-        return $result['result']['postings'];
+        return $result['postings'];
     }
 
     public function postsRequest(Carbon $dateSince, Carbon $dateTo, int $offset = 0) {
@@ -140,7 +144,7 @@ class OzonApi
         $response = $this->getResponse();
 
         if ($response->successful()) {
-            return $result;
+            return $result['result'];
         } else {
             $response->throw();
         }

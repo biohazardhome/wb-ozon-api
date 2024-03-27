@@ -10,18 +10,22 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Carbon\Carbon;
 use App\Http\OzonApi;
-use App\Models\Ozon\ProductStock;
-use App\Models\Ozon\Post;
-use App\Models\Ozon\Cancellation;
-use App\Models\Ozon\DeliveryMethod;
-use App\Models\Ozon\Requirement;
-use App\Models\Ozon\Product;
-use App\Models\Ozon\PostAnalytic;
-use App\Models\Ozon\PostFinancial;
-use App\Models\Ozon\PostFinancialService;
-use App\Models\Ozon\PostFinancialProduct;
+use App\Notifications\Ozon;
 
-use Fiber;
+use App\Models\Ozon\ {
+    ProductStock,
+    Cancellation,
+    Post,
+    DeliveryMethod,
+    Requirement,
+    Product,
+    PostAnalytic,
+    PostFinancial,
+    PostFinancialService,
+    PostFinancialProduct,
+};
+
+// use Fiber;
 
 class OzonUpload implements ShouldQueue
 {
@@ -58,10 +62,7 @@ class OzonUpload implements ShouldQueue
             $items = $result['result']['items'];
 
             foreach($items as $item) {
-                ProductStock::updateOrCreate(
-                    ['product_id' => $item['product_id']],
-                    $item
-                );
+                ProductStock::updateOrCreatePrimary($item);
             }
         } else {
             $response->throw();
@@ -71,38 +72,9 @@ class OzonUpload implements ShouldQueue
         $dateSince = $dateSince ?? self::DATE_SINCE;
         $dateSince = Carbon::parse($dateSince);
 
-        // dump($dateSince);
-        /*$postings = cache()->remember('ozon-api-posts', 500, function () use($api, $dateSince) {
-            return $api->posts($dateSince);
-        });*/
         $postings = $api->posts($dateSince);
-
-        // dd($postings);
-        $fiber = new Fiber(function() use($postings) {
-
-        // dump($this);
+        
         foreach($postings as $item) {
-
-            // $input = file_get_contents('php://input');
-            // stream_set_blocking(STDIN, false);
-            // fopen('php://stdin', 'r');
-            // $input = trim(fgets(STDIN));
-            // $input = trim(fread(fopen('php://stdin','rb'), 80));
-
-            // dump($input);
-
-            // if ($input === 'p') {
-                // Fiber::suspend('pause');
-            // }
-
-            /*if ($input === 's') {
-                $fiber = Fiber::getCurrent();
-                $fiber->resume('start');
-            }
-
-            if ($input === 'e') {
-                
-            }*/
 
             $cancellation = $this->cancellation($item);
             $deliveryMethod = $this->deliveryMethod($item);
@@ -111,39 +83,29 @@ class OzonUpload implements ShouldQueue
             $analytic = $this->analytic($item);
             $financial = $this->financial($item);
 
-
-            // dump($item['products']);
             unset($item['cancellation']);
             unset($item['delivery_method']);
             unset($item['requirements']);
             unset($item['products']);
             unset($item['analytics_data']);
             unset($item['financial_data']);
-            // dump($item);
-
-            // dump($productIds);
 
             $postModel = Post::updateOrCreate(
                 ['posting_number' => $item['posting_number']],
                 $item
             );
 
-            // Post::upsert($item, 'id');
-            // dump($productIds, $postModel);
-            // $postModel = Post::upsertPrimary($item);
-            
+            // $postModel = Post::updateOrCreatePrimary($item);
+            // $postModel->primaryDefault();
+
             $postModel->cancellation()->associate($cancellation);
             $postModel->delivery_method()->associate($deliveryMethod);
             $postModel->requirement()->associate($requirement);
-            $postModel->products()->sync($productIds);
+            // $postModel->products()->sync($productIds);
             $postModel->analytic()->associate($analytic);
             $postModel->financial()->associate($financial);
             $postModel->save();
         }
-
-        });
-
-        $fiber->start();
     }
 
     public function cancellation(array $item) {
@@ -189,20 +151,12 @@ class OzonUpload implements ShouldQueue
         if ($products) {
             $productIds = [];
             foreach($products as $product) {
-                // dump($product);
                 $productModel = Product::updateOrCreate(
                     ['sku' => $product['sku']],
                     $product
                 );
 
                 $productIds[] = $productModel->id;
-                // $product['mandatory_mark'] = '[]';
-                // unset($product['mandatory_mark']);
-                // $product['mandatory_mark'] = NULL;
-                // Product::upsert($product, ['sku']);
-                // Product::upsert($product, ['id']);
-                // $productIds[] = Product::lastInsertId();
-                // dump($productIds);
             }
         }
 
@@ -211,7 +165,6 @@ class OzonUpload implements ShouldQueue
 
     public function analytic(array $item) {
         $analytic = $item['analytics_data'];
-        // dump($analytic);
         if ($analytic) {
             $analyticModel = PostAnalytic::create($analytic);
         }
@@ -221,7 +174,6 @@ class OzonUpload implements ShouldQueue
 
     public function financial(array $item) {
         $financial = $item['financial_data'];
-        // dump($financial);
         if ($financial) {
             $financialModel = PostFinancial::create($financial);
             $products = $financial['products'];

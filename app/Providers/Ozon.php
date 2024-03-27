@@ -21,9 +21,7 @@ class Ozon extends ServiceProvider
      */
     public function boot(): void
     {
-        
-
-        Http::macro('ozonApi', function () {
+        Http::macro('connect', function () {
             return Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Client-Id' => env('OZON_CLIENT_ID'),
@@ -32,10 +30,7 @@ class Ozon extends ServiceProvider
         });
 
         $this->app->singleton(OzonApi::class, function ($app) {
-            return new OzonApi([]);
+            return new OzonApi();
         });
-
-        // $api->post('/v3/product/info/stocks', ['filter' => ['visibility' =>  'ALL'], 'last_id' =>  '', 'limit' =>  100])
-        // $api->productInfoStocksV3(['visibility' =>  'ALL'])
     }
 }
