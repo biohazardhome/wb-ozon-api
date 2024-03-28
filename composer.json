@@ -10,6 +10,7 @@
         "amphp/parallel": "^2.1",
         "biohazard/laravel-debug-console": "dev-master",
         "biohazard/laravel-debugbar-memory": "dev-master",
+        "biohazard/laravel-schedule": "^0.0.1",
         "dakword/wbseller": "^3.4",
         "frostrain/laravel-console-debug": "^0.2.0",
         "guzzlehttp/guzzle": "^7.2",
