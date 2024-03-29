@@ -21,10 +21,14 @@ class OzonApi
         $response = Http::connect()->{$type}($url, $query);
         $this->response = $response;
         
-        if ($this->responseFormat === 'array') {
-            return $response->json();
-        } else if ($this->responseFormat === 'object') {
-            return $response->object();
+        if ($response->successful()) {
+            if ($this->responseFormat === 'array') {
+                return $response->json();
+            } else if ($this->responseFormat === 'object') {
+                return $response->object();
+            }
+        } else {
+            $response->throw();
         }
     }
 
@@ -127,26 +131,17 @@ class OzonApi
 
     public function postsRequest(Carbon $dateSince, Carbon $dateTo, int $offset = 0) {
         $result = $this->postingFbsListV3([
-            'delivery_method_id' => [],
-            'provider_id' => [],
-            'since' => $dateSince->toRfc3339String(),
-            'status' => '',
-            'to' => $dateTo->toRfc3339String(),
-            'status' => '',
-            'warehouse_id' => [],
-        ],
-        $offset/*,
-        with: [
-            'analytics_data' => true,
-            'barcodes' => true,
-            'financial_data' => true,
-        ]*/);
-        $response = $this->getResponse();
+                'delivery_method_id' => [],
+                'provider_id' => [],
+                'since' => $dateSince->toRfc3339String(),
+                'status' => '',
+                'to' => $dateTo->toRfc3339String(),
+                'status' => '',
+                'warehouse_id' => [],
+            ],
+            $offset
+        );
 
-        if ($response->successful()) {
-            return $result['result'];
-        } else {
-            $response->throw();
-        }
+        return $result['result'];
     }
 }

@@ -57,15 +57,10 @@ class OzonUpload implements ShouldQueue
             'product_id' => [],
             'visibility' =>  'ALL',
         ]);
-        $response = $api->getResponse();
-        if ($response->successful()) {
-            $items = $result['result']['items'];
+        $items = $result['result']['items'];
 
-            foreach($items as $item) {
-                ProductStock::updateOrCreatePrimary($item);
-            }
-        } else {
-            $response->throw();
+        foreach($items as $item) {
+            ProductStock::updateOrCreatePrimary($item);
         }
 
         $dateSince = Post::max('created_at');
@@ -179,19 +174,23 @@ class OzonUpload implements ShouldQueue
             $products = $financial['products'];
 
             if ($products) {
-                $productIds = [];
+                // $productIds = [];
                 foreach($products as $product) {
                     // $productModel = $financialModel->products()->create($product);
+                    // dump($product['product_id']);
                     $productModel = PostFinancialProduct::updateOrCreate(
                         ['product_id' => $product['product_id']],
                         $product
                     );
+
+                    $financialModel->products()->attach($productModel->id);
                     if ($product['item_services']) {
                         // $productModel->service()->create($product['item_services']);
                     }
-                    $productIds[] = $productModel->id;
+                    // $productIds[] = $productModel->id;
                 }
-                $financialModel->products()->sync($productIds);
+                // dump($productIds);
+                // $financialModel->products()->sync($productIds);
             }
 
             if ($financial['posting_services']) {
