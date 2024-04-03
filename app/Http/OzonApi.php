@@ -90,6 +90,25 @@ class OzonApi
         return $postings;
     }
 
+    public function postsAsync(Carbon $dateSince) { 
+        $dates = $this->dates($dateSince);
+        $postings = [];
+
+        $futures = [];
+        foreach ($dates as [$dateSince, $dateTo]) {
+            $future = \Amp\async(function () use($dateSince, $dateTo) {
+                dump($dateSince->toRfc3339String(), $dateTo->toRfc3339String());
+                return $this->postsDate($dateSince, $dateTo);
+            });
+
+            $futures[] = $future;
+        }
+
+        $responses = \Amp\Future\await($futures);
+
+        return $responses[0];
+    }
+
     public function dates(Carbon $dateSince) {
         $dates = [];
 
@@ -99,9 +118,7 @@ class OzonApi
         if ($diff > 1) {
             for($i = 0; $i < floor($diff); $i++) {
                 $dateTo = clone($dateSince);
-                // if ($i === 0) {
-                    $dateTo->addYear(1)->subSecond(1);
-                // }
+                $dateTo->addYear(1)->subSecond(1);
                 $dates[] = [$dateSince, $dateTo];
                 $dateSince = $dateTo;
             }

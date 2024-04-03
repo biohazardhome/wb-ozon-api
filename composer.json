@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.1",
         "amphp/amp": "^3.0",
-        "amphp/parallel": "^2.1",
         "biohazard/laravel-debug-console": "dev-master",
         "biohazard/laravel-debugbar-memory": "dev-master",
         "biohazard/laravel-schedule": "^0.0.1",
@@ -16,6 +15,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/helpers": "^1.6",
+        "laravel/horizon": "^5.23",
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",

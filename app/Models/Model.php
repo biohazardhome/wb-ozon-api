@@ -19,13 +19,36 @@ class Model extends ModelBase {
 		return static::find2($ids);
 	}
 
+    public function primaryDefault() {
+        $this->primaryKey = 'id';
+    }
+
     public static function upsertPrimary(array $values, $update = null) {
         $model = new static();
         return $model->upsert($values, $model->primaryKey, $update);
     }
 
-    public static function updateOrCreatePrimary() {
-        
+    public static function updateOrCreatePrimary($item) {
+        $model = new static();
+        $ids = [];
+        if (is_array($model->primaryKey)) {
+            foreach ($model->primaryKey as $key) {
+                $ids[$key] = static::updateOrCreatePrimaryValue($key, $item);
+            }
+        } else {
+            $key = $model->primaryKey;
+            $ids[$key] = static::updateOrCreatePrimaryValue($key, $item);
+        }
+        // dump($ids);
+        return $model->updateOrCreate($ids, $item);
+    }
+
+    public static function updateOrCreatePrimaryValue($key, $item) {
+        if (isset($item[$key])) {
+            return $item[$key];
+        } else {
+            throw new Exception('no key in item');
+        }
     }
 
 	public static function scopeWherePrimary($q, ...$ids) {
@@ -70,8 +93,9 @@ class Model extends ModelBase {
     public function getKey()
     {
         $keys = $this->getKeyName();
-        dump($keys, $this->getAttribute($keys));
-        if (is_string($keys)) { dump($this);return $this->getAttribute($keys); }
+        // dump($keys, $this->getAttribute($keys));
+        // dump($keys, $this->{$keys}, parent::getKey());
+        if (is_string($keys)) { return $this->getAttribute($keys); }
 
         $values = [];
         array_map(function($key) use(&$values) {
