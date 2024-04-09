@@ -60,9 +60,11 @@ class OzonUpload implements ShouldQueue
         $postings = $api->postsAsync($dateSince);
 
         if ($postings) {
-            $chunks = array_chunk($postings, ceil(count($postings) / self::JOB_THREADS));
+            $chunks = array_split($postings, self::JOB_THREADS);
             foreach($chunks as $postings) {
-                dispatch(new OzonPostStore($postings));
+                if ($postings) {
+                    dispatch(new OzonPostStore($postings));
+                }
             }
         }
     }    

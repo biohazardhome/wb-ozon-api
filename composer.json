@@ -40,7 +40,8 @@
             "Biohazard\\": "Biohazard/"
         },
         "files": [
-            "Biohazard/macros.php"
+            "Biohazard/macros.php",
+            "Biohazard/helpers.php"
         ]
     },
     "autoload-dev": {
