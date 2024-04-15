@@ -26,13 +26,15 @@ class OzonPostStore implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $postings = [];
+    private $syncedAt;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($postings)
+    public function __construct($postings, $syncedAt)
     {
         $this->postings = $postings;
+        $this->syncedAt = $syncedAt;
     }
 
     /**
@@ -55,6 +57,8 @@ class OzonPostStore implements ShouldQueue
             unset($item['products']);
             unset($item['analytics_data']);
             unset($item['financial_data']);
+
+            $item['synced_at'] = $this->syncedAt;
 
             $postModel = Post::updateOrCreate(
                 ['posting_number' => $item['posting_number']],

@@ -22,7 +22,7 @@ class OzonUpload implements ShouldQueue
     private const DATE_SINCE = '2024-02-01T00:00:00.000Z';
     private const JOB_THREADS = 8;
 
-    private $api = null;
+    // private $api = null;
 
     public $timeout = 10000;
 
@@ -39,7 +39,7 @@ class OzonUpload implements ShouldQueue
      */
     public function handle(OzonApi $api): void
     {
-        $this->api = $api;
+        $syncedAt = Carbon::now();
 
         $result = $api->productInfoStocksV3([
             'offer_id' => [],
@@ -52,7 +52,7 @@ class OzonUpload implements ShouldQueue
             ProductStock::updateOrCreatePrimary($item);
         }
 
-        $dateSince = Post::max('created_at');
+        $dateSince = Post::max('synced_at');
         $dateSince = $dateSince ?? self::DATE_SINCE;
         $dateSince = Carbon::parse($dateSince);
 
@@ -63,7 +63,7 @@ class OzonUpload implements ShouldQueue
             $chunks = array_split($postings, self::JOB_THREADS);
             foreach($chunks as $postings) {
                 if ($postings) {
-                    dispatch(new OzonPostStore($postings));
+                    dispatch(new OzonPostStore($postings, $syncedAt));
                 }
             }
         }

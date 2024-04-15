@@ -36,6 +36,7 @@ return new class extends Migration
             $table->integer('multi_box_qty');
             $table->boolean('is_multibox');
             $table->string('substatus');
+            $table->dateTime('synced_at');
             $table->timestamps();
         });
     }

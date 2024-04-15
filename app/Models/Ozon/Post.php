@@ -13,10 +13,16 @@ use App\Models\Ozon\ {
     PostFinancial,
 };
 
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
+
 class Post extends Model
 {
+
+    use Notifiable;
+
     protected
-        // $primaryKey = 'id'/*, 'posting_number'*/,
+        // $primaryKey = 'posting_number',
         $touches = ['products'],
         $fillable = [
             'posting_number',
@@ -42,13 +48,15 @@ class Post extends Model
             'multi_box_qty',
             'is_multibox',
             'substatus',
+            'serialize',
+            'synced_at',
         ],
         $casts = [
             'posting_number' => 'string',
             'delivery_method_id' => 'int',
             'cancellation_id' => 'integer',
             'analytic_id' => 'integer',
-            'financial_id' => 'json',
+            'financial_id' => 'integer',
             'requirement_id' => 'integer',
             'order_id' => 'integer',
             'order_number' => 'string',
@@ -60,13 +68,14 @@ class Post extends Model
             'delivering_date' => 'datetime',
             'customer' => 'string',
             'addressee' => 'string',
-            'barcodes' => 'json',
+            'barcodes' => 'object',
             'is_express' => 'boolean',
             'parent_posting_number' => 'string',
             'available_actions' => 'json',
             'multi_box_qty' => 'integer',
             'is_multibox' => 'boolean',
             'substatus' => 'string',
+            'synced_at' => 'datetime',
         ];
 
     public function cancellation() {
@@ -102,7 +111,15 @@ class Post extends Model
         return $this->belongsTo(PostFinancial::class, 'financial_id', 'id');
     }
 
-    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null) {
+
+
+    /*public function routeNotificationForMail(Notification $notification): array|string
+    {
+        // Вернуть адрес электронной почты и имя ...
+        return ['stalker-nikko@yandex.ru' => 'Nikolay'];
+    }*/
+
+    /*public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null) {
         if (is_string($related)) {
                 $classes = get_declared_classes();
             foreach ($classes as $class) {
@@ -119,7 +136,7 @@ class Post extends Model
         }
 
         return parent::belongsToMany($related, $table, $foreignPivotKey, $relatedPivotKey, $parentKey, $relatedKey, $relation);
-    }
+    }*/
 
 
 }
